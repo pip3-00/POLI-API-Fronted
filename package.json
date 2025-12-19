@@ -1,0 +1,36 @@
+{
+  "name": "poli-pi-website",
+  "version": "1.0.0",
+  "description": "Sitio web moderno para el Politécnico Ann y Ted Kheel con sección de comentarios funcional",
+  "main": "PROYECTO/frontend/index.html",
+  "scripts": {
+    "start": "npx serve PROYECTO/frontend",
+    "dev": "npx serve PROYECTO/frontend --live",
+    "build": "echo 'Static site - no build needed'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "website",
+    "education",
+    "polytechnic",
+    "comments",
+    "responsive",
+    "html5",
+    "css3",
+    "javascript",
+    "bootstrap"
+  ],
+  "author": "Laura Ortiz Vásquez",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/[tu-usuario]/poli-PI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/[tu-usuario]/poli-PI/issues"
+  },
+  "homepage": "https://github.com/[tu-usuario]/poli-PI#readme"
+}
