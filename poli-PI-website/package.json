@@ -1,0 +1,39 @@
+{
+  "name": "poli-pi-website",
+  "version": "1.0.0",
+  "description": "Sitio web moderno para el Politécnico Ann y Ted Kheel con sección de comentarios funcional",
+  "main": "frontend/index.html",
+  "scripts": {
+    "start": "npx serve frontend",
+    "dev": "npx serve frontend --live",
+    "build": "echo 'Static site - no build needed'",
+    "test": "echo 'No tests specified'",
+    "backend": "cd backend && python main.py",
+    "backend-dev": "cd backend && uvicorn main:app --reload"
+  },
+  "keywords": [
+    "website",
+    "education",
+    "polytechnic",
+    "comments",
+    "responsive",
+    "html5",
+    "css3",
+    "javascript",
+    "bootstrap",
+    "fastapi"
+  ],
+  "author": "Daphne de jesus",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pip3-00/Portafolio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pip3-00/Portafolio/issues"
+  },
+  "homepage": "https://github.com/pip3-00/Portafolio#readme"
+}
