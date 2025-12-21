@@ -35,14 +35,14 @@ Implementación inicial con FastAPI que expone endpoints REST para noticias, eve
 ## 📁 Estructura del Proyecto
 
 POLI-PI/
-├── .vscode
-├── assets
-├── backend
-├── docs
-├── frontend
-├── .gitignore
-├── package.json
-└── README.md
+|── .vscode
+|── assets
+|── backend
+|── docs
+|── frontend
+|── .gitignore
+|── package.json
+|── README.md
 
 ## 🚀 Instalación y Uso
 
