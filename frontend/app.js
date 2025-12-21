@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     initializeGallery();
     initializeNews();
-    initializeImageModal();
+    initializeVidaEstudiantilCarousel();
 });
 
 function initializeNavigation() {
@@ -145,7 +145,7 @@ function initializeNews() {
             titulo: 'Ceremonia de Graduación 2024: 150 Nuevos Profesionales',
             fecha: '15 de Enero, 2025',
             autor: 'Departamento Académico',
-            imagen: 'imagenes/poli-img-13.jpeg',
+            imagen: '../assets/images/poli-img-13.jpeg',
             contenido: 'El Politécnico Ann y Ted Kheel Celebró con gran orgullo la ceremonia de graduación de 150 estudiantes que culminaron exitosamente sus estudios en diversas áreas técnicas y profesionales.'
         },
         {
@@ -154,7 +154,7 @@ function initializeNews() {
             titulo: 'Feria Tecnológica Anual 2025',
             fecha: '12 de Enero, 2025',
             autor: 'Coordinación de Eventos',
-            imagen: 'imagenes/poli-img-2.png',
+            imagen: '../assets/images/poli-img-2.png',
             contenido: 'La Feria Tecnológica Anual 2025 del Politécnico Ann y Ted Kheel se realizó con gran éxito, contando con la participación de más de 80 proyectos innovadores.'
         },
         {
@@ -163,7 +163,7 @@ function initializeNews() {
             titulo: 'Campeonato Deportivo Intercursos',
             fecha: '10 de Enero, 2025',
             autor: 'Departamento de Deportes',
-            imagen: 'imagenes/poli-img-12.jpeg',
+            imagen: '../assets/images/poli-img-12.jpeg',
             contenido: 'El Campeonato Deportivo Intercursos 2025 reunió a más de 300 estudiantes en competencias de fútbol, baloncesto, voleibol y atletismo.'
         }
     ];
@@ -267,8 +267,8 @@ function initializeNews() {
 }
 
 
-// Inicializar optimizaciones
-document.addEventListener('DOMContentLoaded', optimizeGalleryPerformance);
+// Inicializar optimizaciones - comentar hasta implementar
+// document.addEventListener('DOMContentLoaded', optimizeGalleryPerformance);
 
 /* ===== FUNCIONALIDAD DE NOTICIAS ===== */
 
@@ -280,7 +280,7 @@ const noticiasData = [
         titulo: 'Ceremonia de Graduación 2024: 150 Nuevos Profesionales',
         fecha: '15 de Enero, 2025',
         autor: 'Departamento Académico',
-        imagen: 'imagenes/poli-img-13.jpeg',
+        imagen: '../assets/images/poli-img-13.jpeg',
         contenido: `
             <p>El Politécnico Ann y Ted Kheel Celebró con gran orgullo la ceremonia de graduación de 150 estudiantes que culminaron exitosamente sus estudios en diversas áreas técnicas y profesionales.</p>
             
@@ -297,7 +297,7 @@ const noticiasData = [
         titulo: 'Feria Tecnológica Anual 2025',
         fecha: '12 de Enero, 2025',
         autor: 'Coordinación de Eventos',
-        imagen: 'imagenes/poli-img-2.png',
+        imagen: '../assets/images/poli-img-2.png',
         contenido: `
             <p>La Feria Tecnológica Anual 2025 del Politécnico Ann y Ted Kheel se realizó con gran éxito, contando con la participación de más de 80 proyectos innovadores presentados por estudiantes de todas las carreras.</p>
             
@@ -314,7 +314,7 @@ const noticiasData = [
         titulo: 'Campeonato Deportivo Intercursos',
         fecha: '10 de Enero, 2025',
         autor: 'Departamento de Deportes',
-        imagen: 'imagenes/poli-img-12.jpeg',
+        imagen: '../assets/images/poli-img-12.jpeg',
         contenido: `
             <p>El Campeonato Deportivo Intercursos 2025 reunió a más de 300 estudiantes en competencias de fútbol, baloncesto, voleibol y atletismo, demostrando el espíritu deportivo y de superación que caracteriza a nuestra comunidad estudiantil.</p>
             
@@ -331,7 +331,7 @@ const noticiasData = [
         titulo: 'Inauguración del Nuevo Laboratorio de Robótica',
         fecha: '8 de Enero, 2025',
         autor: 'Facultad de Ingeniería',
-        imagen: 'imagenes/poli-img-11.jpeg',
+        imagen: '../assets/images/poli-img-11.jpeg',
         contenido: `
             <p>El Politécnico Ann y Ted Kheel inauguró oficialmente su nuevo Laboratorio de Robótica, equipado con tecnología de vanguardia para fortalecer la formación en ingeniería y tecnología.</p>
             
@@ -348,7 +348,7 @@ const noticiasData = [
         titulo: 'Festival Cultural Estudiantil',
         fecha: '5 de Enero, 2025',
         autor: 'Coordinación Cultural',
-        imagen: 'imagenes/poli-img15.jpeg',
+        imagen: '../assets/images/poli-img15.jpeg',
         contenido: `
             <p>El Festival Cultural Estudiantil celebró la diversidad de nuestra comunidad con presentaciones artísticas, gastronómicas y musicales que reflejaron las diferentes tradiciones de nuestros estudiantes.</p>
             
@@ -365,7 +365,7 @@ const noticiasData = [
         titulo: 'Nuevos Programas Académicos 2025',
         fecha: '3 de Enero, 2025',
         autor: 'Dirección Académica',
-        imagen: 'imagenes/poli-img-17.jpeg',
+        imagen: '../assets/images/poli-img-17.jpeg',
         contenido: `
             <p>El Politécnico Ann y Ted Kheel lanza nuevos programas académicos especializados en tecnología y administración, diseñados para responder a las demandas del mercado laboral actual.</p>
             
@@ -382,7 +382,7 @@ const noticiasData = [
         titulo: 'Conferencia Magistral de Innovación',
         fecha: '1 de Enero, 2025',
         autor: 'Vicerrectoría Académica',
-        imagen: 'imagenes/poli-img-16.jpeg',
+        imagen: '../assets/images/poli-img-16.jpeg',
         contenido: `
             <p>Expertos internacionales en educación técnica compartieron las últimas tendencias en innovación educativa durante la Conferencia Magistral de Innovación del Politécnico Ann y Ted Kheel.</p>
             
@@ -399,7 +399,7 @@ const noticiasData = [
         titulo: 'Torneo de Fútbol Intercursos',
         fecha: '28 de Diciembre, 2024',
         autor: 'Departamento de Deportes',
-        imagen: 'imagenes/poli-img-18.jpeg',
+        imagen: '../assets/images/poli-img-18.jpeg',
         contenido: `
             <p>El torneo anual de fútbol intercursos reunió a más de 200 estudiantes en una competencia amistosa que promote el espíritu deportivo y la integración entre diferentes cursos.</p>
             
@@ -657,6 +657,12 @@ function hideNoResultsMessage() {
     if (noResultsMsg) {
         noResultsMsg.style.display = 'none';
     }
+    
+    // Ocultar también el mensaje de comentarios vacíos
+    const commentsEmpty = document.getElementById('comments-empty');
+    if (commentsEmpty) {
+        commentsEmpty.style.display = 'none';
+    }
 }
 
 
@@ -825,12 +831,12 @@ document.addEventListener('DOMContentLoaded', function() {
 let comentarios = [];
 
 // Elementos del DOM para comentarios
-const commentForm = document.getElementById('comment-form');
-const commentName = document.getElementById('comment-name');
-const commentEmail = document.getElementById('comment-email');
-const commentMessage = document.getElementById('comment-message');
-const commentsList = document.getElementById('comments-list');
-const commentsEmpty = document.getElementById('comments-empty');
+const commentForm = document.getElementById('commentForm');
+const commentName = document.getElementById('commentName');
+const commentEmail = document.getElementById('commentEmail');
+const commentMessage = document.getElementById('commentText');
+const commentsList = document.getElementById('commentsList');
+const commentsEmpty = null; // Este elemento no existe en el HTML
 
 // Inicializar comentarios
 document.addEventListener('DOMContentLoaded', function() {
@@ -1009,10 +1015,16 @@ function renderComments() {
     if (!commentsList) return;
     
     if (comentarios.length === 0) {
-        // Mostrar estado vacío
-        if (commentsEmpty) {
-            commentsEmpty.style.display = 'block';
+        // Mostrar estado vacío - crear si no existe
+        let commentsEmpty = document.getElementById('comments-empty');
+        if (!commentsEmpty) {
+            commentsEmpty = document.createElement('div');
+            commentsEmpty.id = 'comments-empty';
+            commentsEmpty.className = 'text-center py-4';
+            commentsEmpty.innerHTML = '<p class="text-muted">No hay comentarios aún. ¡Sé el primero en comentar!</p>';
+            commentsList.parentNode.insertBefore(commentsEmpty, commentsList);
         }
+        commentsEmpty.style.display = 'block';
         commentsList.innerHTML = '';
         return;
     }
@@ -1155,6 +1167,342 @@ window.ComentariosManager = {
             comentarios = [];
             localStorage.removeItem('polipi-comentarios');
             renderComments();
+        }
+    }
+};
+
+/* ===== FUNCIONALIDAD AVANZADA DEL CARRUSEL VIDA ESTUDIANTIL ===== */
+
+function initializeVidaEstudiantilCarousel() {
+    const carousel = document.getElementById('carouselExampleAutoplaying');
+    if (!carousel) return;
+    
+    // Inicializar variables
+    let isPaused = false;
+    let currentSlide = 0;
+    let totalSlides = 3;
+    let autoPlayInterval;
+    
+    // Elementos del carrusel
+    const pausePlayBtn = document.getElementById('carouselPausePlay');
+    const pausePlayIcon = pausePlayBtn?.querySelector('i');
+    
+    // Función de utilidad segura para manejar Bootstrap Carousel
+    function safeCarouselAction(carouselElement, action, params = null) {
+        try {
+            // Verificar que Bootstrap está disponible
+            if (typeof bootstrap === 'undefined' || !bootstrap.Carousel) {
+                console.warn('Bootstrap Carousel no está disponible');
+                return false;
+            }
+            
+            // Obtener instancia del carrusel
+            const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
+            
+            if (!carouselInstance) {
+                console.warn('No se pudo obtener la instancia del carrusel');
+                return false;
+            }
+            
+            // Ejecutar la acción solicitada
+            switch(action) {
+                case 'prev':
+                    carouselInstance.prev();
+                    break;
+                case 'next':
+                    carouselInstance.next();
+                    break;
+                case 'pause':
+                    carouselInstance.pause();
+                    break;
+                case 'cycle':
+                    carouselInstance.cycle();
+                    break;
+                case 'to':
+                    if (params !== null && typeof params === 'number') {
+                        carouselInstance.to(params);
+                    }
+                    break;
+                default:
+                    console.warn(`Acción de carrusel no reconocida: ${action}`);
+                    return false;
+            }
+            
+            return true;
+        } catch (error) {
+            console.error('Error al ejecutar acción del carrusel:', error);
+            return false;
+        }
+    }
+    
+    // Inicializar funcionalidad
+    setupCarouselControls();
+    setupAutoPlay();
+    setupKeyboardNavigation();
+    setupTouchGestures();
+    setupIntersectionObserver();
+    
+    function setupCarouselControls() {
+        // Control play/pause
+        if (pausePlayBtn && pausePlayIcon) {
+            pausePlayBtn.addEventListener('click', toggleAutoPlay);
+        }
+        
+        // Auto-pause al hover
+        carousel.addEventListener('mouseenter', pauseCarousel);
+        carousel.addEventListener('mouseleave', resumeCarousel);
+        
+        // Event listener para cambio de slide
+        carousel.addEventListener('slide.bs.carousel', handleSlideChange);
+        carousel.addEventListener('slid.bs.carousel', handleSlideChanged);
+    }
+    
+    function setupAutoPlay() {
+        startAutoPlay();
+    }
+    
+    function setupKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            // Solo activar si el carrusel está visible
+            if (!isElementInViewport(carousel)) return;
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    safeCarouselAction(carousel, 'prev');
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    safeCarouselAction(carousel, 'next');
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    toggleAutoPlay();
+                    break;
+            }
+        });
+    }
+    
+    function setupTouchGestures() {
+        let startX = 0;
+        let endX = 0;
+        
+        carousel.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        }, { passive: true });
+        
+        carousel.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            handleSwipe();
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const threshold = 50; // Mínimo movimiento para swipe
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0) {
+                    // Swipe izquierda - siguiente slide
+                    safeCarouselAction(carousel, 'next');
+                } else {
+                    // Swipe derecha - slide anterior
+                    safeCarouselAction(carousel, 'prev');
+                }
+            }
+        }
+    }
+    
+    function setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    resumeCarousel();
+                } else {
+                    pauseCarousel();
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        observer.observe(carousel);
+    }
+    
+    function toggleAutoPlay() {
+        if (isPaused) {
+            resumeCarousel();
+        } else {
+            pauseCarousel();
+        }
+        updatePausePlayButton();
+    }
+    
+    function pauseCarousel() {
+        isPaused = true;
+        safeCarouselAction(carousel, 'pause');
+        clearInterval(autoPlayInterval);
+    }
+    
+    function resumeCarousel() {
+        if (!isPaused) return;
+        isPaused = false;
+        safeCarouselAction(carousel, 'cycle');
+        startAutoPlay();
+    }
+    
+    function startAutoPlay() {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = setInterval(() => {
+            if (!isPaused) {
+                safeCarouselAction(carousel, 'next');
+            }
+        }, 5000); // 5 segundos
+    }
+    
+    function updatePausePlayButton() {
+        if (!pausePlayIcon) return;
+        
+        if (isPaused) {
+            pausePlayIcon.className = 'fas fa-play';
+            pausePlayBtn.setAttribute('title', 'Reproducir carrusel');
+        } else {
+            pausePlayIcon.className = 'fas fa-pause';
+            pausePlayBtn.setAttribute('title', 'Pausar carrusel');
+        }
+    }
+    
+    function handleSlideChange(e) {
+        // Se ejecuta ANTES del cambio de slide
+        currentSlide = e.to;
+        updateSlideIndicators();
+        animateSlideContent();
+    }
+    
+    function handleSlideChanged(e) {
+        // Se ejecuta DESPUÉS del cambio de slide
+        updateProgressBar();
+    }
+    
+    function updateSlideIndicators() {
+        const indicators = document.querySelectorAll('.custom-carousel-indicators button');
+        indicators.forEach((indicator, index) => {
+            if (index === currentSlide) {
+                indicator.classList.add('active');
+                indicator.setAttribute('aria-current', 'true');
+            } else {
+                indicator.classList.remove('active');
+                indicator.removeAttribute('aria-current');
+            }
+        });
+    }
+    
+    function animateSlideContent() {
+        const activeItem = carousel.querySelector('.carousel-item.active');
+        const textoPrincipal = activeItem?.querySelector('.texto-principal');
+        const textoSecundario = activeItem?.querySelector('.texto-secundario');
+        
+        if (textoPrincipal) {
+            textoPrincipal.style.animation = 'none';
+            // Trigger reflow
+            textoPrincipal.offsetHeight;
+            textoPrincipal.style.animation = 'textoSlideIn 0.8s ease-out';
+        }
+        
+        if (textoSecundario) {
+            textoSecundario.style.animation = 'none';
+            textoSecundario.offsetHeight;
+            textoSecundario.style.animation = 'textoSlideIn 1s ease-out 0.3s both';
+        }
+    }
+    
+    function updateProgressBar() {
+        // Crear barra de progreso si no existe
+        let progressBar = document.querySelector('.carousel-progress-bar');
+        if (!progressBar) {
+            progressBar = document.createElement('div');
+            progressBar.className = 'carousel-progress-bar';
+            progressBar.style.cssText = `
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 3px;
+                background: linear-gradient(90deg, var(--azul-claro), var(--blanco-gris));
+                transition: width 0.3s ease;
+                z-index: 3;
+                border-radius: 0 2px 2px 0;
+            `;
+            carousel.appendChild(progressBar);
+        }
+        
+        // Animar barra de progreso
+        progressBar.style.width = '0%';
+        setTimeout(() => {
+            progressBar.style.width = '100%';
+        }, 100);
+    }
+    
+    function isElementInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+    
+    // Cleanup function para cuando se leave la página
+    window.addEventListener('beforeunload', () => {
+        clearInterval(autoPlayInterval);
+    });
+}
+
+// Funciones de utilidad adicionales para el carrusel
+window.CarouselUtils = {
+    // Función para saltar a un slide específico
+    goToSlide: function(slideIndex) {
+        const carousel = document.getElementById('carouselExampleAutoplaying');
+        if (carousel && slideIndex >= 0 && slideIndex < 3) {
+            // Verificar que Bootstrap está disponible
+            if (typeof bootstrap === 'undefined' || !bootstrap.Carousel) {
+                console.warn('Bootstrap Carousel no está disponible');
+                return false;
+            }
+            
+            try {
+                const carouselInstance = bootstrap.Carousel.getInstance(carousel);
+                if (carouselInstance) {
+                    carouselInstance.to(slideIndex);
+                    return true;
+                } else {
+                    console.warn('No se pudo obtener la instancia del carrusel');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error al navegar al slide:', error);
+                return false;
+            }
+        }
+        return false;
+    },
+    
+    // Función para obtener el slide actual
+    getCurrentSlide: function() {
+        const activeSlide = document.querySelector('.carousel-item.active');
+        return activeSlide ? Array.from(document.querySelectorAll('.carousel-item')).indexOf(activeSlide) : 0;
+    },
+    
+    // Función para reproducir/pausar programáticamente
+    togglePlayPause: function() {
+        const pausePlayBtn = document.getElementById('carouselPausePlay');
+        if (pausePlayBtn) {
+            pausePlayBtn.click();
+        }
+    },
+    
+    // Función para cambiar el intervalo de autoplay
+    setAutoPlayInterval: function(milliseconds) {
+        const carousel = document.getElementById('carouselExampleAutoplaying');
+        if (carousel) {
+            carousel.setAttribute('data-bs-interval', milliseconds);
         }
     }
 };

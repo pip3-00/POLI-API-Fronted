@@ -3,27 +3,8 @@
 /* Fuentes de Google como respaldo */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 
-/* Fuentes locales como primera opción */
-@font-face {
-    font-family: 'Poppins';
-    src: url('../fuentes/Poppins/Poppins-Light.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Poppins';
-    src: url('../fuentes/Poppins/Poppins-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Poppins';
-    src: url('../fuentes/Poppins/Poppins-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-}
+/* Solo Google Fonts como fuente principal */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
 :root{
     /* Azules institucionales */
@@ -130,7 +111,7 @@
 }
 
 .navbar-azul-poli .navbar-toggler-icon{
-    background-image: url(imagenes/menu-open.svg);
+    background-image: url(../assets/images/menu-open.svg);
 }
 
 
@@ -218,49 +199,339 @@ outline: none !important;
     outline: none !important;
 }
 
-/* carrusel  vida estudiantil*/
+/* ===== CARRUSEL VIDA ESTUDIANTIL MEJORADO ===== */
 
-.carousel-item{
+/* Container principal del carrusel */
+.vida-estudiantil-carousel {
     position: relative;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
+    overflow: hidden;
+    border-radius: 0;
 }
 
-.carousel-item img{
+/* Items del carrusel */
+.vida-estudiantil-carousel .carousel-item {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.vida-estudiantil-carousel .carousel-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    transition: transform 0.8s ease;
 }
 
-/* overlay */
+/* Efecto de zoom en las imágenes */
+.vida-estudiantil-carousel .carousel-item.active img {
+    transform: scale(1.05);
+}
 
-.overlay-vida-estudiantil{
+.vida-estudiantil-carousel .carousel-item img {
+    transform: scale(1);
+}
+
+/* Overlay mejorado con gradiente */
+.overlay-vida-estudiantil {
     position: absolute;
     inset: 0;
-    background-color:#3b3b3b85;
     z-index: 1;
+    background: linear-gradient(
+        135deg,
+        rgba(8, 43, 95, 0.7) 0%,
+        rgba(26, 74, 140, 0.6) 25%,
+        rgba(10, 35, 66, 0.8) 50%,
+        rgba(8, 43, 95, 0.9) 75%,
+        rgba(6, 32, 68, 0.95) 100%
+    );
+    backdrop-filter: blur(1px);
 }
 
-.carousel-item img{
-    position: relative;
-    z-index: 1;
+/* Patrón geométrico sutil sobre el overlay */
+.overlay-vida-estudiantil::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+    background-size: 100px 100px, 150px 150px;
+    animation: patternMove 20s ease-in-out infinite;
 }
 
+@keyframes patternMove {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-10px, -10px) rotate(1deg); }
+}
 
+/* Texto del carrusel mejorado */
 .texto-vida-estudiantil {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50% , -50%);
+    transform: translate(-50%, -50%);
     z-index: 2;
-    font-size: 4vw;
-    color: var(--gris-medio);
-    white-space: nowrap;
-    text-align: left;
+    text-align: center;
+    color: var(--blanco-gris);
+    max-width: 800px;
+    padding: 0 2rem;
+    animation: textoSlideIn 1s ease-out 0.5s both;
 }
-.texto-vida-estudiantil p{
 
-    text-shadow: 5px 4px 3px #00000097;
+.texto-principal {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+    color: var(--blanco-gris);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-family: 'Poppins', sans-serif;
+}
+
+.texto-secundario {
+    font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+    font-weight: 400;
+    margin: 0;
+    opacity: 0.95;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    line-height: 1.4;
+}
+
+@keyframes textoSlideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -40%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Controles de navegación personalizados */
+.custom-carousel-control {
+    width: 60px !important;
+    height: 60px !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 50% !important;
+    backdrop-filter: blur(10px) !important;
+    transition: all 0.3s ease !important;
+    opacity: 0.8 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+.custom-carousel-control:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: var(--azul-claro) !important;
+    opacity: 1 !important;
+    transform: translateY(-50%) scale(1.1) !important;
+    box-shadow: 0 8px 25px rgba(26, 74, 140, 0.4) !important;
+}
+
+.custom-carousel-control::before {
+    font-size: 1.5rem !important;
+    color: var(--blanco-gris) !important;
+}
+
+.custom-carousel-control.carousel-control-prev {
+    left: 2rem !important;
+}
+
+.custom-carousel-control.carousel-control-next {
+    right: 2rem !important;
+}
+
+/* Indicadores de progreso personalizados */
+.custom-carousel-indicators {
+    bottom: 2rem !important;
+    margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+}
+
+.custom-carousel-indicators button {
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.4) !important;
+    border: 2px solid rgba(255, 255, 255, 0.6) !important;
+    margin: 0 !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.custom-carousel-indicators button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: var(--azul-claro);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s ease;
+}
+
+.custom-carousel-indicators button:hover::before,
+.custom-carousel-indicators button:focus::before {
+    width: 100%;
+    height: 100%;
+}
+
+.custom-carousel-indicators button.active {
+    background: var(--azul-medio) !important;
+    border-color: var(--azul-claro) !important;
+    transform: scale(1.2) !important;
+    box-shadow: 0 4px 15px rgba(26, 74, 140, 0.5) !important;
+}
+
+.custom-carousel-indicators button.active::before {
+    width: 100%;
+    height: 100%;
+}
+
+/* Controles adicionales (pause/play) */
+.carousel-controls-overlay {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    z-index: 3;
+}
+
+.carousel-pause-play {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: var(--blanco-gris);
+    font-size: 1.2rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-pause-play:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: var(--azul-claro);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(26, 74, 140, 0.4);
+}
+
+/* Animaciones de entrada para los elementos */
+.vida-estudiantil-carousel .carousel-item {
+    animation: slideInRight 0.8s ease-out;
+}
+
+.vida-estudiantil-carousel .carousel-item.active {
+    animation: slideInRight 0.8s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive para el carrusel */
+@media (max-width: 768px) {
+    .vida-estudiantil-carousel,
+    .vida-estudiantil-carousel .carousel-item {
+        height: 70vh;
+        min-height: 500px;
+    }
+    
+    .custom-carousel-control {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    .custom-carousel-control.carousel-control-prev {
+        left: 1rem !important;
+    }
+    
+    .custom-carousel-control.carousel-control-next {
+        right: 1rem !important;
+    }
+    
+    .custom-carousel-indicators {
+        bottom: 1.5rem !important;
+        gap: 0.8rem !important;
+    }
+    
+    .custom-carousel-indicators button {
+        width: 14px !important;
+        height: 14px !important;
+    }
+    
+    .carousel-controls-overlay {
+        top: 1.5rem;
+        right: 1.5rem;
+    }
+    
+    .carousel-pause-play {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+    
+    .texto-vida-estudiantil {
+        padding: 0 1rem;
+        max-width: 90%;
+    }
+    
+    .texto-principal {
+        font-size: clamp(2rem, 8vw, 3rem);
+        margin-bottom: 1rem;
+    }
+    
+    .texto-secundario {
+        font-size: clamp(1rem, 3vw, 1.4rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .vida-estudiantil-carousel,
+    .vida-estudiantil-carousel .carousel-item {
+        height: 60vh;
+        min-height: 400px;
+    }
+    
+    .custom-carousel-control {
+        width: 45px !important;
+        height: 45px !important;
+    }
+    
+    .custom-carousel-control::before {
+        font-size: 1.2rem !important;
+    }
+    
+    .texto-principal {
+        font-size: clamp(1.8rem, 10vw, 2.5rem);
+        margin-bottom: 0.8rem;
+    }
+    
+    .texto-secundario {
+        font-size: clamp(0.9rem, 4vw, 1.2rem);
+    }
 }
 
 /* noticias */

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pagina poli</title>
-    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.png">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -16,7 +16,7 @@
         <nav class="navbar navbar-expand-lg navbar-light navbar-azul-poli">
             <div class="container-fluid">
                 <a href="#" class="navbar-brand">
-                    <img  class="img-fluid w-auto" style="height: 60px;" src="assets/images/logo-poli.png"  alt="logo del politecnico ann y ted kheel">
+                    <img  class="img-fluid w-auto" style="height: 60px;" src="../assets/images/logo-poli.png"  alt="logo del politecnico ann y ted kheel">
                 </a>
                 <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse" 
@@ -45,7 +45,7 @@
 <!-- Hero Section Responsive -->
 <div class="hero-section-responsive">
     <div class="hero-image-container">
-        <img src="assets/images/poli-img-1.png" class="hero-image" alt="Politécnico Ann y Ted Kheel">
+        <img src="../assets/images/poli-img-1.png" class="hero-image" alt="Politécnico Ann y Ted Kheel">
         <div class="hero-overlay-responsive"></div>
     </div>
     <div class="hero-content-responsive">
@@ -165,35 +165,60 @@
 
 </section>
 
-        <!-- VIDA ESTUDIANTIL -->
+<!-- VIDA ESTUDIANTIL -->
 <section class="section" id="vida-estudiantil">
 <div class="container-fluid p-0">
-    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+    <div id="carouselExampleAutoplaying" class="carousel slide vida-estudiantil-carousel" data-bs-ride="carousel" data-bs-interval="5000">
 <div class="carousel-inner">
     <div class="carousel-item active">
-        <img src="assets/images/poli-img-5.png" class="d-block w-100" alt="...">
+        <img src="../assets/images/poli-img-5.png" class="d-block w-100" alt="Vida estudiantil - Momentos que nos forman">
         <div class="overlay-vida-estudiantil"></div>
-        <div class="texto-vida-estudiantil"><p>"Momentos que nos forman"</p></div>
+        <div class="texto-vida-estudiantil">
+            <h2 class="texto-principal">"Momentos que nos forman"</h2>
+            <p class="texto-secundario">Descubre la experiencia completa en nuestro Politécnico</p>
+        </div>
     </div>
     <div class="carousel-item">
-        <img src="assets/images/poli-img-6.png" class="d-block w-100" alt="...">
+        <img src="../assets/images/poli-img-6.png" class="d-block w-100" alt="Vida estudiantil - Aprendizaje colaborativo">
         <div class="overlay-vida-estudiantil"></div>
-        <div class="texto-vida-estudiantil"><p>"Momentos que nos forman"</p></div>
+        <div class="texto-vida-estudiantil">
+            <h2 class="texto-principal">"Momentos que nos forman"</h2>
+            <p class="texto-secundario">Construyendo el futuro junto a ti</p>
+        </div>
     </div>
     <div class="carousel-item">
-        <img src="assets/images/poli-img-7.jpeg" class="d-block w-100" alt="...">
+        <img src="../assets/images/poli-img-7.jpeg" class="d-block w-100" alt="Vida estudiantil - Crecimiento personal">
         <div class="overlay-vida-estudiantil"></div>
-        <div class="texto-vida-estudiantil"><p>"Momentos que nos forman"</p></div>
+        <div class="texto-vida-estudiantil">
+            <h2 class="texto-principal">"Momentos que nos forman"</h2>
+            <p class="texto-secundario">Donde cada día es una nueva oportunidad</p>
+        </div>
     </div>
 </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
+    
+    <!-- Controles de navegación personalizados -->
+    <button class="carousel-control-prev custom-carousel-control" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
+    <button class="carousel-control-next custom-carousel-control" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
     </button>
+    
+    <!-- Indicadores de progreso personalizados -->
+    <div class="carousel-indicators custom-carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    
+    <!-- Controles adicionales -->
+    <div class="carousel-controls-overlay">
+        <button class="carousel-pause-play" id="carouselPausePlay">
+            <i class="fas fa-pause"></i>
+        </button>
+    </div>
     </div>
 </div>
 
@@ -219,8 +244,8 @@
     <div class="gallery-container">
         <div class="gallery-grid">
             <!-- Galería items con lightbox -->
-            <div class="gallery-item" data-src="assets/images/img-poli-4.png" data-title="Vida Estudiantil">
-                <img src="assets/images/img-poli-4.png" class="img-fluid gallery-img" alt="Vida estudiantil" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/img-poli-4.png" data-title="Vida Estudiantil">
+                <img src="../assets/images/img-poli-4.png" class="img-fluid gallery-img" alt="Vida estudiantil" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -228,8 +253,8 @@
                 </div>
             </div>
             
-            <div class="gallery-item" data-src="assets/images/poli-img-2.png" data-title="Instalaciones">
-                <img src="assets/images/poli-img-2.png" class="img-fluid gallery-img" alt="Instalaciones" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/poli-img-2.png" data-title="Instalaciones">
+                <img src="../assets/images/poli-img-2.png" class="img-fluid gallery-img" alt="Instalaciones" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -237,8 +262,8 @@
                 </div>
             </div>
             
-            <div class="gallery-item large" data-src="assets/images/poli-img-8.jpeg" data-title="Eventos Especiales">
-                <img src="assets/images/poli-img-8.jpeg" class="img-fluid gallery-img" alt="Eventos especiales" loading="lazy">
+            <div class="gallery-item large" data-src="../assets/images/poli-img-8.jpeg" data-title="Eventos Especiales">
+                <img src="../assets/images/poli-img-8.jpeg" class="img-fluid gallery-img" alt="Eventos especiales" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -246,8 +271,8 @@
                 </div>
             </div>
             
-            <div class="gallery-item" data-src="assets/images/poli-img-9.jpeg" data-title="Actividades Académicas">
-                <img src="assets/images/poli-img-9.jpeg" class="img-fluid gallery-img" alt="Actividades académicas" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/poli-img-9.jpeg" data-title="Actividades Académicas">
+                <img src="../assets/images/poli-img-9.jpeg" class="img-fluid gallery-img" alt="Actividades académicas" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -255,8 +280,8 @@
                 </div>
             </div>
             
-            <div class="gallery-item" data-src="assets/images/poli-img-10.jpeg" data-title="Estudiantes en Clase">
-                <img src="assets/images/poli-img-10.jpeg" class="img-fluid gallery-img" alt="Estudiantes en clase" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/poli-img-10.jpeg" data-title="Estudiantes en Clase">
+                <img src="../assets/images/poli-img-10.jpeg" class="img-fluid gallery-img" alt="Estudiantes en clase" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -264,8 +289,8 @@
                 </div>
             </div>
             
-            <div class="gallery-item" data-src="assets/images/poli-img-11.jpeg" data-title="Laboratorios">
-                <img src="assets/images/poli-img-11.jpeg" class="img-fluid gallery-img" alt="Laboratorios" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/poli-img-11.jpeg" data-title="Laboratorios">
+                <img src="../assets/images/poli-img-11.jpeg" class="img-fluid gallery-img" alt="Laboratorios" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -273,8 +298,8 @@
                 </div>
             </div>
             
-            <div class="gallery-item" data-src="assets/images/poli-img-12.jpeg" data-title="Deportes y Recreación">
-                <img src="assets/images/poli-img-12.jpeg" class="img-fluid gallery-img" alt="Deportes y recreación" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/poli-img-12.jpeg" data-title="Deportes y Recreación">
+                <img src="../assets/images/poli-img-12.jpeg" class="img-fluid gallery-img" alt="Deportes y recreación" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -282,8 +307,8 @@
                 </div>
             </div>
             
-            <div class="gallery-item" data-src="assets/images/poli-img-13.jpeg" data-title="Graduaciones">
-                <img src="assets/images/poli-img-13.jpeg" class="img-fluid gallery-img" alt="Graduaciones" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/poli-img-13.jpeg" data-title="Graduaciones">
+                <img src="../assets/images/poli-img-13.jpeg" class="img-fluid gallery-img" alt="Graduaciones" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -291,8 +316,8 @@
                 </div>
             </div>
             
-            <div class="gallery-item" data-src="assets/images/poli-img-14.jpeg" data-title="Campus">
-                <img src="assets/images/poli-img-14.jpeg" class="img-fluid gallery-img" alt="Campus" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/poli-img-14.jpeg" data-title="Campus">
+                <img src="../assets/images/poli-img-14.jpeg" class="img-fluid gallery-img" alt="Campus" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -300,8 +325,8 @@
                 </div>
             </div>
             
-            <div class="gallery-item" data-src="assets/images/poli-img15.jpeg" data-title="Actividades Culturales">
-                <img src="assets/images/poli-img15.jpeg" class="img-fluid gallery-img" alt="Actividades culturales" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/poli-img15.jpeg" data-title="Actividades Culturales">
+                <img src="../assets/images/poli-img15.jpeg" class="img-fluid gallery-img" alt="Actividades culturales" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -310,8 +335,8 @@
             </div>
             
             <!-- Imágenes adicionales -->
-            <div class="gallery-item" data-src="assets/images/poli-img-16.jpeg" data-title="Proyectos Estudiantiles">
-                <img src="assets/images/poli-img-16.jpeg" class="img-fluid gallery-img" alt="Proyectos estudiantiles" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/poli-img-16.jpeg" data-title="Proyectos Estudiantiles">
+                <img src="../assets/images/poli-img-16.jpeg" class="img-fluid gallery-img" alt="Proyectos estudiantiles" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -319,8 +344,8 @@
                 </div>
             </div>
             
-            <div class="gallery-item" data-src="assets/images/poli-img-17.jpeg" data-title="Biblioteca">
-                <img src="assets/images/poli-img-17.jpeg" class="img-fluid gallery-img" alt="Biblioteca" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/poli-img-17.jpeg" data-title="Biblioteca">
+                <img src="../assets/images/poli-img-17.jpeg" class="img-fluid gallery-img" alt="Biblioteca" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -328,8 +353,8 @@
                 </div>
             </div>
             
-            <div class="gallery-item" data-src="assets/images/poli-img-18.jpeg" data-title="Actividades Extracurriculares">
-                <img src="assets/images/poli-img-18.jpeg" class="img-fluid gallery-img" alt="Actividades extracurriculares" loading="lazy">
+            <div class="gallery-item" data-src="../assets/images/poli-img-18.jpeg" data-title="Actividades Extracurriculares">
+                <img src="../assets/images/poli-img-18.jpeg" class="img-fluid gallery-img" alt="Actividades extracurriculares" loading="lazy">
                 <div class="gallery-overlay">
                     <div class="gallery-icon">
                         <i class="fas fa-search-plus"></i>
@@ -404,7 +429,7 @@
             <div class="featured-news mb-5">
                 <div class="news-card featured-card" data-category="academicas">
                     <div class="news-image">
-                        <img src="assets/images/poli-img-13.jpeg" alt="Graduación 2024" loading="lazy">
+                        <img src="../assets/images/poli-img-13.jpeg" alt="Graduación 2024" loading="lazy">
                         <div class="news-category-badge">Académicas</div>
                         <div class="news-overlay"></div>
                     </div>
@@ -435,7 +460,7 @@
                 <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="eventos">
                     <div class="news-card">
                         <div class="news-image">
-                            <img src="assets/images/poli-img-2.png" alt="Feria Tecnológica" loading="lazy">
+                            <img src="../assets/images/poli-img-2.png" alt="Feria Tecnológica" loading="lazy">
                             <div class="news-category-badge">Eventos</div>
                         </div>
                         <div class="news-content">
@@ -459,7 +484,7 @@
                 <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="deportivas">
                     <div class="news-card">
                         <div class="news-image">
-                            <img src="assets/images/poli-img-12.jpeg" alt="Campeonato Deportivo" loading="lazy">
+                            <img src="../assets/images/poli-img-12.jpeg" alt="Campeonato Deportivo" loading="lazy">
                             <div class="news-category-badge">Deportivas</div>
                         </div>
                         <div class="news-content">
@@ -483,7 +508,7 @@
                 <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="academicas">
                     <div class="news-card">
                         <div class="news-image">
-                            <img src="assets/images/poli-img-11.jpeg" alt="Nuevo Laboratorio" loading="lazy">
+                            <img src="../assets/images/poli-img-11.jpeg" alt="Nuevo Laboratorio" loading="lazy">
                             <div class="news-category-badge">Académicas</div>
                         </div>
                         <div class="news-content">
@@ -507,7 +532,7 @@
                 <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="cultura">
                     <div class="news-card">
                         <div class="news-image">
-                            <img src="assets/images/poli-img15.jpeg" alt="Festival Cultural" loading="lazy">
+                            <img src="../assets/images/poli-img15.jpeg" alt="Festival Cultural" loading="lazy">
                             <div class="news-category-badge">Cultura</div>
                         </div>
                         <div class="news-content">
@@ -532,7 +557,7 @@
                 <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="academicas">
                     <div class="news-card">
                         <div class="news-image">
-                            <img src="assets/images/poli-img-17.jpeg" alt="Nuevos Programas" loading="lazy">
+                            <img src="../assets/images/poli-img-17.jpeg" alt="Nuevos Programas" loading="lazy">
                             <div class="news-category-badge">Académicas</div>
                         </div>
                         <div class="news-content">
@@ -556,7 +581,7 @@
                 <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="eventos">
                     <div class="news-card">
                         <div class="news-image">
-                            <img src="assets/images/poli-img-16.jpeg" alt="Conferencia Magistral" loading="lazy">
+                            <img src="../assets/images/poli-img-16.jpeg" alt="Conferencia Magistral" loading="lazy">
                             <div class="news-category-badge">Eventos</div>
                         </div>
                         <div class="news-content">
@@ -580,7 +605,7 @@
                 <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="deportivas">
                     <div class="news-card">
                         <div class="news-image">
-                            <img src="assets/images/poli-img-18.jpeg" alt="Torneo de Fútbol" loading="lazy">
+                            <img src="../assets/images/poli-img-18.jpeg" alt="Torneo de Fútbol" loading="lazy">
                             <div class="news-category-badge">Deportivas</div>
                         </div>
                         <div class="news-content">
@@ -662,7 +687,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="contact-info-card">
-                            <img src="assets/images/logo-poli.png" alt="Logo Politécnico" class="contact-logo">
+                            <img src="../assets/images/logo-poli.png" alt="Logo Politécnico" class="contact-logo">
                             <h3>Politécnico Ann y Ted Kheel</h3>
                             <p>Formando jóvenes con valores, liderazgo y visión de futuro desde 1985.</p>
                         </div>
