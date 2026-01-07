@@ -5,7 +5,86 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeGallery();
     initializeNews();
     initializeVidaEstudiantilCarousel();
+    initializeNavbarCloseOnInput();
 });
+
+// ===== CERRAR NAVBAR AL INTERACTUAR CON INPUTS =====
+function initializeNavbarCloseOnInput() {
+    const navbarCollapse = document.getElementById('navbarSupportedContent');
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    
+    if (!navbarCollapse || !navbarToggler) return;
+    
+    // Función para cerrar el navbar
+    function closeNavbar() {
+        // Verificar si Bootstrap está disponible
+        if (typeof bootstrap !== 'undefined' && bootstrap.Collapse) {
+            const collapseInstance = bootstrap.Collapse.getInstance(navbarCollapse);
+            if (collapseInstance) {
+                collapseInstance.hide();
+            } else {
+                // Si no hay instancia, crear una y ocultarla
+                new bootstrap.Collapse(navbarCollapse, {
+                    show: false
+                });
+            }
+        } else {
+            // Fallback: manipular clases directamente
+            navbarCollapse.classList.remove('show');
+            navbarToggler.setAttribute('aria-expanded', 'false');
+        }
+    }
+    
+    // Seleccionar todos los inputs dentro del navbar
+    const inputsInNavbar = navbarCollapse.querySelectorAll('input, select, textarea');
+    
+    // Agregar evento click a cada input
+    inputsInNavbar.forEach(input => {
+        input.addEventListener('click', function(e) {
+            // Solo cerrar si el navbar está abierto (tiene clase 'show')
+            if (navbarCollapse.classList.contains('show')) {
+                // Pequeño delay para permitir que el input reciba el focus primero
+                setTimeout(closeNavbar, 100);
+            }
+        });
+        
+        // También cerrar cuando el input pierde focus (blur)
+        input.addEventListener('blur', function() {
+            // Delay más largo para permitir interacción con el input
+            setTimeout(() => {
+                if (navbarCollapse.classList.contains('show')) {
+                    closeNavbar();
+                }
+            }, 300);
+        });
+    });
+    
+    // Mejora: Cerrar navbar también al hacer submit en forms dentro del navbar
+    const formsInNavbar = navbarCollapse.querySelectorAll('form');
+    formsInNavbar.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (navbarCollapse.classList.contains('show')) {
+                e.preventDefault();
+                closeNavbar();
+                // Si es un formulario válido, continuar con el submit
+                if (form.checkValidity()) {
+                    form.submit();
+                }
+            }
+        });
+    });
+    
+    // MEJORA: Cerrar navbar al hacer click en enlaces de navegación (mejora UX en móvil)
+    const navLinks = navbarCollapse.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            // Solo cerrar si el navbar está abierto y es versión móvil
+            if (navbarCollapse.classList.contains('show') && window.innerWidth < 992) {
+                closeNavbar();
+            }
+        });
+    });
+}
 
 function initializeNavigation() {
     const links = document.querySelectorAll('a[href^="#"]');
