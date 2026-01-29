@@ -2733,3 +2733,60 @@ img {
         padding: 1rem;
     }
 }
+
+/* ===== BOTÓN DE ADMIN LOGIN ===== */
+
+/* Estilo del botón de Admin Login en la navbar */
+.btn-admin-login {
+    background: linear-gradient(135deg, var(--azul-poli) 0%, var(--azul-medio) 100%);
+    color: var(--blanco-gris);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: var(--bs-body-font-family);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(8, 43, 95, 0.3);
+    white-space: nowrap;
+}
+
+.btn-admin-login:hover {
+    background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-poli) 100%);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(8, 43, 95, 0.4);
+    text-decoration: none;
+}
+
+.btn-admin-login:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(8, 43, 95, 0.3);
+}
+
+.btn-admin-login i {
+    font-size: 0.9rem;
+}
+
+/* Responsive para el botón admin login */
+@media (max-width: 992px) {
+    .btn-admin-login {
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem 1.5rem;
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .btn-admin-login {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+    }
+}

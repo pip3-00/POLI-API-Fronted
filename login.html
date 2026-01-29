@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrador - Politécnico Ann y Ted Kheel</title>
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Portal de administración del Politécnico Ann y Ted Kheel">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./assets/icons/favicon.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" 
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
+          crossorigin="anonymous">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== VARIABLES CSS (coherentes con la página principal) ===== */
+        :root {
+            --azul-poli: #082b5f;
+            --azul-oscuro: #062044;
+            --azul-medio: #1A4A8C;
+            --azul-claro: #3a78bf67;
+            --azul-overlay: #0a234291;
+            --blanco-gris: #F2F4F7;
+            --gris-medio: #D9DDE2;
+            --gris-oscuro: #7A7F87;
+            --negro-suave: #1A1C1F;
+            --fuente-principal: 'Poppins', sans-serif;
+        }
+
+        /* ===== ESTILOS GENERALES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--fuente-principal);
+            min-height: 100vh;
+            background: var(--blanco-gris);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== NAVBAR (coherente con página principal) ===== */
+        .navbar-admin {
+            background: linear-gradient(135deg, var(--azul-poli) 0%, var(--azul-medio) 100%);
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(8, 43, 95, 0.3);
+        }
+
+        .navbar-brand-admin {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--blanco-gris) !important;
+            font-weight: 600;
+            font-size: 1.3rem;
+            text-decoration: none;
+        }
+
+        .navbar-brand-admin img {
+            height: 50px;
+            width: auto;
+        }
+
+        .back-to-site {
+            color: var(--blanco-gris);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .back-to-site:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--blanco-gris);
+            transform: translateY(-2px);
+        }
+
+        /* ===== CONTENIDO PRINCIPAL ===== */
+        .login-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--azul-poli) 0%, var(--azul-medio) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Fondo con patrón decorativo */
+        .login-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 100px 100px, 80px 80px, 120px 120px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ===== TARJETA DE LOGIN ===== */
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(8, 43, 95, 0.3);
+            padding: 3rem;
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--azul-poli) 0%, var(--azul-medio) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 25px rgba(8, 43, 95, 0.3);
+        }
+
+        .login-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .login-title {
+            color: var(--azul-poli);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: var(--gris-oscuro);
+            font-size: 1rem;
+        }
+
+        /* ===== FORMULARIO ===== */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            color: var(--azul-poli);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-label i {
+            color: var(--azul-medio);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            border: 2px solid var(--gris-medio);
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-family: var(--fuente-principal);
+            transition: all 0.3s ease;
+            background: var(--blanco-gris);
+        }
+
+        .form-control:focus {
+            border-color: var(--azul-medio);
+            box-shadow: 0 0 0 4px rgba(26, 74, 140, 0.1);
+            outline: none;
+            background: white;
+        }
+
+        .form-control::placeholder {
+            color: var(--gris-oscuro);
+            opacity: 0.7;
+        }
+
+        /* Input con icono adentro */
+        .input-group-text {
+            background: var(--blanco-gris);
+            border: 2px solid var(--gris-medio);
+            border-right: none;
+            border-radius: 12px 0 0 12px;
+            color: var(--azul-medio);
+            font-size: 1rem;
+        }
+
+        .input-group .form-control {
+            border-radius: 0 12px 12px 0;
+            border-left: none;
+        }
+
+        .input-group:focus-within .input-group-text,
+        .input-group:focus-within .form-control {
+            border-color: var(--azul-medio);
+        }
+
+        /* ===== BOTÓN DE LOGIN ===== */
+        .btn-login {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--azul-poli) 0%, var(--azul-medio) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: var(--fuente-principal);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(8, 43, 95, 0.4);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .btn-login:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+            transform: none;
+        }
+
+        /* ===== SPINNER DE CARGA ===== */
+        .btn-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        .btn-login.loading .btn-spinner {
+            display: block;
+        }
+
+        .btn-login.loading .btn-text {
+            opacity: 0.8;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== MENSAJES DE ERROR ===== */
+        .error-container {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            display: none;
+            animation: shake 0.5s ease-out;
+        }
+
+        .error-container.show {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .error-container i {
+            color: #dc2626;
+            font-size: 1.2rem;
+            margin-top: 0.1rem;
+            flex-shrink: 0;
+        }
+
+        .error-container .error-message {
+            color: #991b1b;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        /* ===== MENSAJE DE ÉXITO ===== */
+        .success-container {
+            background: #dcfce7;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .success-container.show {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .success-container i {
+            color: #16a34a;
+            font-size: 1.2rem;
+        }
+
+        .success-container .success-message {
+            color: #166534;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* ===== FOOTER ===== */
+        .login-footer {
+            background: var(--azul-poli);
+            color: var(--blanco-gris);
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+
+        .login-footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 576px) {
+            .login-main {
+                padding: 1rem;
+            }
+
+            .login-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .login-title {
+                font-size: 1.5rem;
+            }
+
+            .login-icon {
+                width: 70px;
+                height: 70px;
+            }
+
+            .login-icon i {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .login-card {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .login-title {
+                font-size: 1.3rem;
+            }
+
+            .form-control {
+                padding: 12px 14px;
+                font-size: 0.95rem;
+            }
+
+            .btn-login {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar-admin">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- Logo y título -->
+                <a href="index.html" class="navbar-brand-admin">
+                    <img src="./assets/images/logo-poli.png" alt="Logo Politécnico">
+                    <span>Politécnico Ann y Ted Kheel</span>
+                </a>
+                
+                <!-- Enlace volver al sitio -->
+                <a href="index.html" class="back-to-site">
+                    <i class="fas fa-arrow-left"></i>
+                    <span class="d-none d-sm-inline">Volver al sitio</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main class="login-main">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+                    <!-- Tarjeta de Login -->
+                    <div class="login-card">
+                        <!-- Encabezado -->
+                        <div class="login-header">
+                            <div class="login-icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <h1 class="login-title">Acceso Administrador</h1>
+                            <p class="login-subtitle">Ingresa tus credenciales para continuar</p>
+                        </div>
+
+                        <!-- Mensaje de error (oculto por defecto) -->
+                        <div id="errorContainer" class="error-container">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span id="errorMessage" class="error-message"></span>
+                        </div>
+
+                        <!-- Mensaje de éxito (oculto por defecto) -->
+                        <div id="successContainer" class="success-container">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="success-message">¡Login exitoso! Redirigiendo...</span>
+                        </div>
+
+                        <!-- Formulario de Login -->
+                        <form id="loginForm">
+                            <!-- Input de usuario -->
+                            <div class="form-group">
+                                <label for="username" class="form-label">
+                                    <i class="fas fa-user"></i>
+                                    Usuario
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <input 
+                                        type="text" 
+                                        id="username" 
+                                        name="username" 
+                                        class="form-control" 
+                                        placeholder="Ingresa tu nombre de usuario"
+                                        required
+                                        autocomplete="username"
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Input de contraseña -->
+                            <div class="form-group">
+                                <label for="password" class="form-label">
+                                    <i class="fas fa-lock"></i>
+                                    Contraseña
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                    <input 
+                                        type="password" 
+                                        id="password" 
+                                        name="password" 
+                                        class="form-control" 
+                                        placeholder="Ingresa tu contraseña"
+                                        required
+                                        autocomplete="current-password"
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Botón de submit -->
+                            <button type="submit" id="submitBtn" class="btn-login">
+                                <span class="btn-spinner"></span>
+                                <span class="btn-text">
+                                    <i class="fas fa-sign-in-alt me-2"></i>
+                                    Iniciar sesión
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="login-footer">
+        <div class="container">
+            <p>&copy; 2025 Politécnico Ann y Ted Kheel. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        /**
+         * MÓDULO DE LOGIN - Politécnico Ann y Ted Kheel
+         * Maneja la autenticación de administradores con el backend FastAPI
+         * 
+         * Funcionalidades:
+         * - Envío de credenciales en formato JSON
+         * - Spinner de carga durante la petición
+         * - Manejo de errores visible en HTML
+         * - Guardado de token JWT en localStorage
+         * - Redirección a admin.html en login exitoso
+         */
+
+        // ===== CONFIGURACIÓN =====
+        const API_BASE_URL = 'http://127.0.0.1:8000';
+        const LOGIN_ENDPOINT = '/login';
+        const ADMIN_PAGE = 'admin.html';
+
+        // ===== ELEMENTOS DEL DOM =====
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorContainer = document.getElementById('errorContainer');
+        const errorMessage = document.getElementById('errorMessage');
+        const successContainer = document.getElementById('successContainer');
+
+        // ===== EVENT LISTENERS =====
+        
+        /**
+         * Evento submit del formulario
+         * Captura los datos y envía al backend
+         */
+        loginForm.addEventListener('submit', async function(e) {
+            // Prevenir recarga de página
+            e.preventDefault();
+            
+            console.log('📝 Formulario de login enviado');
+            console.log('⏰ Timestamp:', new Date().toISOString());
+            
+            try {
+                // 1. Obtener y validar valores
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value;
+                
+                console.log('👤 Username input value:', JSON.stringify(username));
+                console.log('🔒 Password input length:', password.length);
+                
+                // Validar campos no vacíos
+                if (!username || !password) {
+                    throw new Error('Por favor complete todos los campos');
+                }
+                
+                // 2. Mostrar estado de carga
+                setLoadingState(true);
+                hideError();
+                
+                // 3. Construir body JSON
+                const loginData = {
+                    username: username,
+                    password: password
+                };
+                
+                console.log('📦 JSON a enviar:', JSON.stringify(loginData));
+                console.log('🔗 Endpoint:', API_BASE_URL + LOGIN_ENDPOINT);
+                console.log('📋 Content-Type: application/json');
+                
+                // 4. Hacer petición al backend
+                const response = await fetch(API_BASE_URL + LOGIN_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(loginData)
+                });
+                
+                console.log('✅ Respuesta recibida');
+                console.log('📊 HTTP Status:', response.status, response.statusText);
+                
+                // 5. Obtener respuesta como texto primero
+                const responseText = await response.text();
+                console.log('📄 Respuesta cruda:', responseText);
+                
+                // 6. Parsear JSON
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                    console.log('✅ JSON parseado correctamente');
+                    console.log('📋 Keys en respuesta:', Object.keys(data));
+                } catch (parseError) {
+                    console.error('❌ Error parseando JSON:', parseError);
+                    throw new Error(`Respuesta inválida del servidor: ${responseText.substring(0, 100)}`);
+                }
+                
+                // 7. Manejar respuesta
+                if (!response.ok) {
+                    console.error('❌ Error HTTP:', response.status);
+                    console.error('📋 Data de error:', data);
+                    
+                    // Extraer mensaje de error
+                    let errorMsg = 'Credenciales incorrectas';
+                    
+                    if (data.detail) {
+                        if (typeof data.detail === 'string') {
+                            errorMsg = data.detail;
+                        } else if (Array.isArray(data.detail)) {
+                            // Errores de validación de Pydantic
+                            errorMsg = data.detail.map(err => err.msg || JSON.stringify(err)).join(', ');
+                        } else {
+                            errorMsg = JSON.stringify(data.detail);
+                        }
+                    } else if (data.message) {
+                        errorMsg = data.message;
+                    }
+                    
+                    throw new Error(errorMsg);
+                }
+                
+                // 8. Login exitoso
+                console.log('🎉 Login exitoso!');
+                
+                // Verificar que existe token
+                if (!data.access_token) {
+                    console.error('❌ No se recibió access_token en la respuesta');
+                    throw new Error('Respuesta inválida: no se recibió token de autenticación');
+                }
+                
+                // Guardar token en localStorage
+                console.log('💾 Guardando token en localStorage...');
+                localStorage.setItem('admin_token', data.access_token);
+                console.log('✅ Token guardado correctamente');
+                console.log('📏 Longitud del token:', data.access_token.length);
+                
+                // Mostrar mensaje de éxito
+                showSuccess();
+                
+                // Redirigir después de delay
+                console.log('⏳ Redirigiendo a', ADMIN_PAGE, 'en 1.5 segundos...');
+                setTimeout(() => {
+                    window.location.href = ADMIN_PAGE;
+                }, 1500);
+                
+            } catch (error) {
+                // Manejo de errores
+                console.error('═══════════════════════════════════════');
+                console.error('❌ ERROR EN LOGIN');
+                console.error('═══════════════════════════════════════');
+                console.error('Tipo:', error.constructor.name);
+                console.error('Mensaje:', error.message);
+                if (error.stack) {
+                    console.error('Stack:', error.stack);
+                }
+                console.error('═══════════════════════════════════════');
+                
+                // Convertir error a string
+                let errorMsg = 'Error de conexión con el servidor';
+                if (error.message) {
+                    errorMsg = String(error.message);
+                }
+                
+                // Mostrar error en HTML
+                showError(errorMsg);
+            } finally {
+                // Quitar estado de carga
+                setLoadingState(false);
+                console.log('🔄 Estado de loading removido\n');
+            }
+        });
+
+        // ===== FUNCIONES AUXILIARES =====
+
+        /**
+         * Cambia el estado del botón entre loading y normal
+         * @param {boolean} loading - Si está en estado loading
+         */
+        function setLoadingState(loading) {
+            if (loading) {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('loading');
+                console.log('🔄 Estado: Cargando...');
+            } else {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+                console.log('✅ Estado: Listo');
+            }
+        }
+
+        /**
+         * Muestra un mensaje de error en el contenedor
+         * @param {string} message - Mensaje de error a mostrar
+         */
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorContainer.classList.add('show');
+            successContainer.classList.remove('show');
+            
+            // Ocultar después de 5 segundos
+            setTimeout(() => {
+                hideError();
+            }, 5000);
+        }
+
+        /**
+         * Oculta el contenedor de errores
+         */
+        function hideError() {
+            errorContainer.classList.remove('show');
+        }
+
+        /**
+         * Muestra el contenedor de éxito
+         */
+        function showSuccess() {
+            hideError();
+            successContainer.classList.add('show');
+            
+            // Deshabilitar formulario
+            usernameInput.disabled = true;
+            passwordInput.disabled = true;
+            submitBtn.disabled = true;
+        }
+
+        /**
+         * Verifica si ya hay una sesión activa
+         * Si existe token, redirige directamente a admin.html
+         */
+        function checkExistingSession() {
+            const token = localStorage.getItem('admin_token');
+            if (token) {
+                console.log('🔑 Sesión activa encontrada');
+                console.log('📏 Longitud del token:', token.length);
+                console.log('➡️ Redirigiendo a', ADMIN_PAGE);
+                window.location.href = ADMIN_PAGE;
+            } else {
+                console.log('ℹ️ No hay sesión activa, mostrando formulario de login');
+            }
+        }
+
+        // ===== INICIALIZACIÓN =====
+        
+        // Verificar sesión al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('═══════════════════════════════════════');
+            console.log('🚀 MÓDULO DE LOGIN INICIALIZADO');
+            console.log('═══════════════════════════════════════');
+            console.log('📅 Fecha:', new Date().toLocaleString());
+            console.log('🌐 User Agent:', navigator.userAgent.substring(0, 50) + '...');
+            console.log('📐 Viewport:', window.innerWidth + 'x' + window.innerHeight);
+            console.log('═══════════════════════════════════════');
+            
+            // Verificar sesión existente
+            checkExistingSession();
+            
+            // Enfocar primer input
+            if (usernameInput) {
+                usernameInput.focus();
+                console.log('🎯 Input username enfocado');
+            }
+        });
+
+        // Logout function (disponible globalmente)
+        window.logoutAdmin = function() {
+            console.log('🚪 Cerrando sesión...');
+            localStorage.removeItem('admin_token');
+            console.log('✅ Token removido de localStorage');
+            console.log('➡️ Redirigiendo a login.html');
+            window.location.href = 'login.html';
+        };
+
+        console.log('✅ Script login.js cargado correctamente');
+    </script>
+</body>
+</html>
+
