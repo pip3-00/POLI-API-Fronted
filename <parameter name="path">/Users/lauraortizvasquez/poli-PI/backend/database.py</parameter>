@@ -1,0 +1,37 @@
+<parameter name="content">"""
+Database configuration and session management.
+"""
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+
+# Database URL - SQLite for simplicity
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
+
+# Create engine with SQLite-specific settings
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    connect_args={"check_same_thread": False}
+)
+
+# Session factory
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Base class for models
+Base = declarative_base()
+
+
+def get_db():
+    """
+    Dependency that provides a database session.
+
+    Yields a session and ensures it's closed after use.
+    Usage:
+        def endpoint(db: Session = Depends(get_db)):
+            ...
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+</parameter>

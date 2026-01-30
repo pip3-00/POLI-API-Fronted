@@ -10,7 +10,7 @@
 const LOGIN_CONFIG = {
     API_BASE_URL: 'http://127.0.0.1:8000',
     LOGIN_ENDPOINT: '/login',
-    ADMIN_PAGE: 'admin.html',
+    ADMIN_PAGE: 'admin/admin.html',
     TOKEN_KEY: 'admin_token'
 };
 

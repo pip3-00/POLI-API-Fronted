@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Politécnico Ann y Ted Kheel</title>
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Panel de administración del Politécnico Ann y Ted Kheel">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" 
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
+          crossorigin="anonymous">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar-admin">
+        <div class="container-fluid px-4">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <!-- Logo y título -->
+                <a href="admin.html" class="navbar-brand-admin">
+                    <img src="../assets/images/logo-poli.png" alt="Logo Politécnico">
+                    <span class="d-none d-lg-inline">Panel de Administración</span>
+                    <span class="d-lg-none">Admin</span>
+                </a>
+                
+                <!-- Menú derecho -->
+                <div class="d-flex align-items-center gap-3">
+                    <!-- Enlace al sitio -->
+                    <a href="../index.html" class="btn btn-outline-light btn-sm">
+                        <i class="fas fa-external-link-alt me-1"></i>
+                        <span class="d-none d-sm-inline">Ver sitio</span>
+                    </a>
+                    
+                    <!-- Usuario conectado -->
+                    <div class="user-info d-none d-md-flex align-items-center gap-2">
+                        <div class="user-avatar">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <span class="user-name text-white">Administrador</span>
+                    </div>
+                    
+                    <!-- Botón logout -->
+                    <button id="logoutBtn" class="btn btn-outline-light btn-sm" title="Cerrar sesión">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="d-none d-lg-inline ms-1">Salir</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main class="admin-main">
+        <div class="container-fluid px-4 py-4">
+            
+            <!-- Header del Dashboard -->
+            <div class="dashboard-header mb-4">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1 class="dashboard-title">
+                            <i class="fas fa-newspaper me-2"></i>
+                            Gestión de Noticias
+                        </h1>
+                        <p class="dashboard-subtitle text-muted mb-0">
+                            Administra las noticias del Politécnico Ann y Ted Kheel
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                        <button id="btnNuevaNoticia" class="btn btn-admin-primary">
+                            <i class="fas fa-plus me-2"></i>
+                            Nueva Noticia
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alertas -->
+            <div id="alertContainer" class="mb-4" style="display: none;">
+                <!-- Las alertas se insertarán aquí dinámicamente -->
+            </div>
+
+            <!-- Panel de Noticias -->
+            <div class="admin-card">
+                <div class="card-header-admin d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list me-2"></i>
+                        Listado de Noticias
+                    </h5>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-secondary" id="newsCount">0 noticias</span>
+                        <button id="btnRefresh" class="btn btn-sm btn-outline-secondary" title="Actualizar lista">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card-body p-0">
+                    <!-- Loading spinner -->
+                    <div id="loadingSpinner" class="loading-container">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <p class="mt-2 text-muted">Cargando noticias...</p>
+                    </div>
+
+                    <!-- Tabla de noticias -->
+                    <div class="table-responsive" id="tableContainer" style="display: none;">
+                        <table class="table table-hover admin-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th width="60">ID</th>
+                                    <th>Título</th>
+                                    <th width="120">Fecha</th>
+                                    <th width="100">Estado</th>
+                                    <th width="150" class="text-end">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="newsTableBody">
+                                <!-- Las noticias se insertarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty state -->
+                    <div id="emptyState" class="empty-state" style="display: none;">
+                        <div class="empty-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <h4 class="empty-title">No hay noticias</h4>
+                        <p class="empty-text">Aún no se ha publicado ninguna noticia.</p>
+                        <button class="btn btn-admin-primary mt-3" id="btnNuevaNoticiaEmpty">
+                            <i class="fas fa-plus me-2"></i>
+                            Crear primera noticia
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== MODAL PARA CREAR/EDITAR NOTICIA ===== -->
+    <div class="modal fade" id="newsModal" tabindex="-1" aria-labelledby="newsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newsModalLabel">
+                        <i class="fas fa-edit me-2"></i>
+                        <span id="modalTitle">Nueva Noticia</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="newsForm">
+                        <input type="hidden" id="newsId">
+                        
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="newsTitle" class="form-label">
+                                    <i class="fas fa-heading me-1"></i>
+                                    Título de la noticia <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="newsTitle" 
+                                       placeholder="Ingresa el título de la noticia" required maxlength="200">
+                                <div class="form-text">Máximo 200 caracteres</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="newsCategory" class="form-label">
+                                    <i class="fas fa-tag me-1"></i>
+                                    Categoría <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="newsCategory" required>
+                                    <option value="">Seleccionar categoría</option>
+                                    <option value="eventos">Eventos</option>
+                                    <option value="academicas">Académicas</option>
+                                    <option value="deportivas">Deportivas</option>
+                                    <option value="cultura">Cultura</option>
+                                    <option value="institucionales">Institucionales</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="newsDate" class="form-label">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    Fecha <span class="text-danger">*</span>
+                                </label>
+                                <input type="date" class="form-control" id="newsDate" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newsExcerpt" class="form-label">
+                                <i class="fas fa-align-left me-1"></i>
+                                Resumen <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" id="newsExcerpt" rows="2" 
+                                      placeholder="Breve resumen de la noticia" required maxlength="500"></textarea>
+                            <div class="form-text">Máximo 500 caracteres</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newsContent" class="form-label">
+                                <i class="fas fa-paragraph me-1"></i>
+                                Contenido completo <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" id="newsContent" rows="6" 
+                                      placeholder="Escribe el contenido completo de la noticia" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newsImage" class="form-label">
+                                <i class="fas fa-image me-1"></i>
+                                URL de imagen
+                            </label>
+                            <input type="url" class="form-control" id="newsImage" 
+                                   placeholder="https://ejemplo.com/imagen.jpg">
+                            <div class="form-text">Opcional: URL de la imagen principal</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newsAuthor" class="form-label">
+                                <i class="fas fa-user me-1"></i>
+                                Autor
+                            </label>
+                            <input type="text" class="form-control" id="newsAuthor" 
+                                   placeholder="Nombre del autor" maxlength="100">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-admin-primary" id="btnSaveNews">
+                        <i class="fas fa-save me-1"></i>
+                        <span id="btnSaveText">Guardar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL DE CONFIRMACIÓN PARA ELIMINAR ===== -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteModalLabel">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Confirmar eliminación
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que deseas eliminar esta noticia?</p>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+                    </div>
+                    <p class="mb-0 text-muted">
+                        Noticia a eliminar: <strong id="deleteNewsTitle"></strong>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmDelete">
+                        <i class="fas fa-trash me-1"></i>
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="admin-footer">
+        <div class="container-fluid px-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0 text-muted">
+                        &copy; 2025 Politécnico Ann y Ted Kheel. Panel de Administración.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <span class="text-muted">Sesión activa como administrador</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" 
+            crossorigin="anonymous"></script>
+    
+    <!-- Configuración global -->
+    <script src="../config.js"></script>
+    
+    <!-- Admin JS -->
+    <script src="admin.js"></script>
+</body>
+</html>
+
