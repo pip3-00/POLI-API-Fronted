@@ -37,15 +37,15 @@ Implementación inicial con FastAPI que expone endpoints REST para noticias, eve
 
 ## 📁 Estructura del Proyecto
 
-POLI-PI/
-|── .vscode
-|── assets
-|── backend
-|── docs
-|── frontend
-|── .gitignore
-|── package.json
-|── README.md
+poli-PI/
+├── index.html          # Página principal
+├── login.html          # Portal de administración
+├── app.js              # Funcionalidades principales JS
+├── noticias.js         # Sistema de noticias
+├── index.css           # Estilos principales
+├── assets/             # Imágenes, iconos, fuentes
+└── backend/            # API con FastAPI
+
 
 ## 🚀 Instalación y Uso
 
