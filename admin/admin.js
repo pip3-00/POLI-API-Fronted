@@ -1,566 +1,455 @@
 /**
- * PANEL DE ADMINISTRACIÓN - Politécnico Ann y Ted Kheel
- * Maneja la gestión completa de noticias del backend FastAPI
- * 
- * Funcionalidades:
- * - Protección de rutas con JWT
- * - CRUD completo de noticias
- * - Manejo de errores 401/403
- * - Interfaz responsiva con feedback visual
+ * PANEL DE ADMINISTRACIÓN CMS - Politécnico Ann y Ted Kheel
+ * Gestión genérica de contenidos del backend FastAPI
  */
 
-// ===== CONFIGURACIÓN =====
-const API_URL = window.CONFIG?.API_URL || 'http://127.0.0.1:8000';
+// ===== IMPORTS =====
+import { API_URL } from '../config.js';
+import { getToken, logout, requireAuth } from './services/auth.js';
+import { api } from './services/api.js';
+import { loadContent, createContent, updateContent, deleteContent, getContent } from './services/content.js';
+
+// ===== CONSTANTES =====
 const TOKEN_KEY = 'admin_token';
 
-// ===== ELEMENTOS DEL DOM =====
-let newsModal, deleteModal, alertContainer, newsTableBody, loadingSpinner, 
-    tableContainer, emptyState, newsCount;
-
 // ===== ESTADO =====
-let currentNews = [];
-let editingNewsId = null;
+let contents = [];
+let currentFilters = {
+    type: '',
+    page: '',
+    is_active: ''
+};
+let contentToDelete = null;
+
+// ===== ELEMENTOS DEL DOM =====
+const alertContainer = document.getElementById('alertContainer');
+const loadingSpinner = document.getElementById('loadingSpinner');
+const tableContainer = document.getElementById('tableContainer');
+const emptyState = document.getElementById('emptyState');
+const contentCount = document.getElementById('contentCount');
+const contentsTableBody = document.getElementById('contentsTableBody');
 
 // ===== INICIALIZACIÓN =====
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('═══════════════════════════════════════════');
-    console.log('🚀 PANEL DE ADMIN INICIALIZADO');
-    console.log('═══════════════════════════════════════════');
+document.addEventListener('DOMContentLoaded', init);
+
+function init() {
+    console.log('🚀 Inicializando Panel Admin CMS...');
     
-    // Verificar autenticación primero
-    if (!checkAuth()) {
-        redirectToLogin();
+    // Verificar autenticación
+    if (!requireAuth()) {
         return;
     }
     
-    // Inicializar elementos del DOM
-    initializeElements();
+    // Exponer funciones globally para onclick handlers
+    window.editContent = openEditContentModal;
+    window.deleteContentPrompt = deleteContentPrompt;
     
     // Configurar event listeners
     setupEventListeners();
     
-    // Cargar noticias
-    loadNews();
+    // Cargar contenidos
+    loadContents();
     
-    console.log('✅ Panel de administración listo');
-});
+    console.log('✅ Panel Admin CMS inicializado');
+    console.log('📡 API URL:', API_URL);
+    console.log('🔐 Token disponible:', !!getToken());
+}
+
+
+// ===== CARGA DE DATOS =====
 
 /**
- * Verifica si el usuario está autenticado
- * @returns {boolean}
+ * Carga todos los contenidos con los filtros actuales
+ * Usa la función loadContent del servicio de contenido
  */
-function checkAuth() {
-    const token = localStorage.getItem(TOKEN_KEY);
-    const isAuth = !!token;
+async function loadContents() {
+    showLoading();
+    contents = [];
     
-    if (!isAuth) {
-        console.log('⚠️ No hay token - redirigiendo a login');
-    } else {
-        console.log('✅ Token encontrado - usuario autenticado');
+    try {
+        // Usar el import de content.js
+        const items = await loadContent(currentFilters);
+        contents = items;
+        renderTable(items);
+    } catch (error) {
+        console.error('❌ Error cargando contenidos:', error.message);
+        showAlert(`Error al cargar contenidos: ${error.message}`, 'danger');
+        hideLoading();
     }
-    
-    return isAuth;
 }
 
-/**
- * Redirige a la página de login
- */
-function redirectToLogin() {
-    console.log('➡️ Redirigiendo a login.html...');
-    window.location.href = 'login.html';
-}
 
-/**
- * Inicializa las referencias a elementos del DOM
- */
-function initializeElements() {
-    // Modales
-    newsModal = new bootstrap.Modal(document.getElementById('newsModal'));
-    deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    
-    // Elementos UI
-    alertContainer = document.getElementById('alertContainer');
-    newsTableBody = document.getElementById('newsTableBody');
-    loadingSpinner = document.getElementById('loadingSpinner');
-    tableContainer = document.getElementById('tableContainer');
-    emptyState = document.getElementById('emptyState');
-    newsCount = document.getElementById('newsCount');
-    
-    // Inputs del formulario
-    document.getElementById('newsDate').valueAsDate = new Date();
-    
-    console.log('✅ Elementos del DOM inicializados');
-}
-
-/**
- * Configura los event listeners
- */
+// ===== EVENT LISTENERS =====
 function setupEventListeners() {
-    // Botón nueva noticia
-    const btnNueva = document.getElementById('btnNuevaNoticia');
-    const btnNuevaEmpty = document.getElementById('btnNuevaNoticiaEmpty');
-    
-    if (btnNueva) {
-        btnNueva.addEventListener('click', () => openNewsModal());
-    }
-    if (btnNuevaEmpty) {
-        btnNuevaEmpty.addEventListener('click', () => openNewsModal());
-    }
-    
-    // Botón refresh
-    const btnRefresh = document.getElementById('btnRefresh');
-    if (btnRefresh) {
-        btnRefresh.addEventListener('click', loadNews);
-    }
-    
-    // Guardar noticia
-    const btnSave = document.getElementById('btnSaveNews');
-    if (btnSave) {
-        btnSave.addEventListener('click', saveNews);
-    }
-    
-    // Confirmar eliminación
-    const btnDelete = document.getElementById('btnConfirmDelete');
-    if (btnDelete) {
-        btnDelete.addEventListener('click', confirmDelete);
-    }
-    
     // Logout
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', logout);
     }
     
-    // Resetear formulario al cerrar modal
-    const newsModalEl = document.getElementById('newsModal');
-    if (newsModalEl) {
-        newsModalEl.addEventListener('hidden.bs.modal', () => {
-            resetNewsForm();
-        });
+    // Filtros
+    const filterType = document.getElementById('filterType');
+    const filterPage = document.getElementById('filterPage');
+    const filterActive = document.getElementById('filterActive');
+    const btnClearFilters = document.getElementById('btnClearFilters');
+    
+    if (filterType) filterType.addEventListener('change', applyFilters);
+    if (filterPage) filterPage.addEventListener('change', applyFilters);
+    if (filterActive) filterActive.addEventListener('change', applyFilters);
+    if (btnClearFilters) {
+        btnClearFilters.addEventListener('click', clearFilters);
     }
     
-    console.log('✅ Event listeners configurados');
+    // Nuevo contenido
+    const btnNewContent = document.getElementById('btnNewContent');
+    const btnNewContentEmpty = document.getElementById('btnNewContentEmpty');
+    if (btnNewContent) btnNewContent.addEventListener('click', openNewContentModal);
+    if (btnNewContentEmpty) btnNewContentEmpty.addEventListener('click', openNewContentModal);
+    
+    // Guardar contenido (modal)
+    const btnSaveContent = document.getElementById('btnSaveContent');
+    if (btnSaveContent) {
+        btnSaveContent.addEventListener('click', saveContent);
+    }
+    
+    // Confirmar eliminación
+    const btnConfirmDelete = document.getElementById('btnConfirmDelete');
+    if (btnConfirmDelete) {
+        btnConfirmDelete.addEventListener('click', confirmDelete);
+    }
+    
+    // Refresh
+    const btnRefresh = document.getElementById('btnRefresh');
+    if (btnRefresh) {
+        btnRefresh.addEventListener('click', loadContents);
+    }
 }
 
-/**
- * Obtiene el token del localStorage
- * @returns {string|null}
- */
-function getToken() {
-    return localStorage.getItem(TOKEN_KEY);
-}
 
-/**
- * Crea los headers para requests autenticadas
- * @returns {Object}
- */
-function getAuthHeaders() {
-    const token = getToken();
-    return {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
+
+
+function applyFilters() {
+    const filterType = document.getElementById('filterType');
+    const filterPage = document.getElementById('filterPage');
+    const filterActive = document.getElementById('filterActive');
+    
+    currentFilters = {
+        type: filterType?.value || '',
+        page: filterPage?.value || '',
+        is_active: filterActive?.value || ''
     };
+    
+    loadContents();
 }
 
-/**
- * Maneja errores de autenticación (401, 403)
- */
-function handleAuthError() {
-    console.log('⚠️ Error de autenticación - cerrando sesión');
-    showAlert('Tu sesión ha expirado o no tienes permisos. Serás redirigido al login.', 'warning');
+function clearFilters() {
+    currentFilters = { type: '', page: '', is_active: '' };
     
-    setTimeout(() => {
-        logout();
-    }, 2000);
+    const filterType = document.getElementById('filterType');
+    const filterPage = document.getElementById('filterPage');
+    const filterActive = document.getElementById('filterActive');
+    
+    if (filterType) filterType.value = '';
+    if (filterPage) filterPage.value = '';
+    if (filterActive) filterActive.value = '';
+    
+    loadContents();
 }
 
-/**
- * Carga todas las noticias desde el backend
- */
-async function loadNews() {
-    console.log('📰 Cargando noticias...');
-    showLoading(true);
-    hideEmptyState();
-    
-    try {
-        const response = await fetch(`${API_URL}/news`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        
-        // Normalizar datos (puede venir como array o como objeto con keys)
-        if (Array.isArray(data)) {
-            currentNews = data;
-        } else if (typeof data === 'object') {
-            // Si viene como objeto, intentar extraer array
-            currentNews = data.data || data.news || Object.values(data).find(v => Array.isArray(v)) || [];
-        } else {
-            currentNews = [];
-        }
-        
-        console.log(`✅ ${currentNews.length} noticias cargadas`);
-        renderNewsTable();
-        
-    } catch (error) {
-        console.error('❌ Error cargando noticias:', error);
-        showAlert('Error al cargar las noticias. Por favor intenta de nuevo.', 'danger');
-        showEmptyState();
-    } finally {
-        showLoading(false);
-    }
-}
+// ===== RENDERIZADO =====
 
-/**
- * Renderiza la tabla de noticias
- */
-function renderNewsTable() {
-    const count = currentNews.length;
-    newsCount.textContent = `${count} ${count === 1 ? 'noticia' : 'noticias'}`;
-    
-    if (count === 0) {
-        showEmptyState();
+function renderTable(items) {
+    if (!contentsTableBody) return;
+
+    // 🧼 limpiar
+    contentsTableBody.innerHTML = '';
+    hideLoading();
+    hideAllStates();
+
+    // 🧠 estado vacío
+    if (!Array.isArray(items) || items.length === 0) {
+        showEmptyState(true);
+        updateCount(0);
         return;
     }
-    
-    hideEmptyState();
-    
-    // Ordenar por fecha (más recientes primero)
-    const sortedNews = [...currentNews].sort((a, b) => {
-        const dateA = new Date(a.created_at || a.date || a.published_at || 0);
-        const dateB = new Date(b.created_at || b.date || b.published_at || 0);
-        return dateB - dateA;
-    });
-    
-    newsTableBody.innerHTML = sortedNews.map(news => `
-        <tr data-id="${news.id}">
-            <td class="text-center">
-                <span class="badge bg-secondary">${news.id}</span>
-            </td>
-            <td class="news-title-cell" title="${escapeHtml(news.title)}">
-                <strong>${escapeHtml(news.title)}</strong>
-            </td>
-            <td class="text-center">
-                ${formatDate(news.created_at || news.date || news.published_at)}
-            </td>
-            <td class="text-center">
-                <span class="badge ${news.published !== false ? 'badge-published' : 'badge-draft'}">
-                    ${news.published !== false ? 'Publicado' : 'Borrador'}
-                </span>
-            </td>
+
+    showTable();
+    updateCount(items.length);
+
+    items.forEach(item => {
+        const tr = document.createElement('tr');
+
+        // Estado
+        const isActive = item.is_active !== false;
+        const statusBadge = isActive
+            ? '<span class="badge bg-success">Activo</span>'
+            : '<span class="badge bg-danger">Inactivo</span>';
+
+        // Tipo
+        const typeLabels = {
+            news: '<span class="badge bg-primary">Noticia</span>',
+            page: '<span class="badge bg-info">Página</span>',
+            section: '<span class="badge bg-warning text-dark">Sección</span>',
+            image: '<span class="badge bg-secondary">Imagen</span>'
+        };
+
+        const typeBadge = typeLabels[item.type] || '<span class="badge bg-light text-dark">Desconocido</span>';
+
+        tr.innerHTML = `
+            <td>${item.id ?? '?'}</td>
+            <td>${typeBadge}</td>
+            <td>${escapeHtml(item.page || '')}</td>
+            <td><code>${escapeHtml(item.key || '')}</code></td>
+            <td><strong>${escapeHtml(item.title || 'Sin título')}</strong></td>
+            <td>${statusBadge}</td>
             <td class="text-end">
-                <button class="action-btn btn-edit" onclick="editNews(${news.id})" title="Editar">
+                <button class="btn btn-sm btn-outline-primary"
+                        onclick="window.editContent(${item.id})"
+                        title="Editar">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="action-btn btn-delete" onclick="deleteNews(${news.id})" title="Eliminar">
+                <button class="btn btn-sm btn-outline-danger"
+                        onclick="window.deleteContentPrompt(${item.id})"
+                        title="Eliminar">
                     <i class="fas fa-trash"></i>
                 </button>
             </td>
-        </tr>
-    `).join('');
+        `;
+
+        contentsTableBody.appendChild(tr);
+    });
 }
 
-/**
- * Abre el modal para crear/editar noticia
- * @param {number|null} id - ID de la noticia a editar (null para nueva)
- */
-function openNewsModal(id = null) {
-    editingNewsId = id;
-    const modalTitle = document.getElementById('modalTitle');
-    const btnSaveText = document.getElementById('btnSaveText');
+function updateCount(count) {
+    if (!contentCount) return;
+    contentCount.textContent = `${count} contenido${count !== 1 ? 's' : ''}`;
+}
+
+
+// ===== MODAL DE CONTENIDO =====
+function openNewContentModal() {
+    // Limpiar formulario
+    const form = document.getElementById('contentForm');
+    if (form) form.reset();
     
-    if (id) {
-        // Modo edición
-        const news = currentNews.find(n => n.id === id);
-        if (!news) {
-            showAlert('No se encontró la noticia a editar.', 'danger');
-            return;
-        }
+    const contentId = document.getElementById('contentId');
+    const modalTitle = document.getElementById('modalTitle');
+    const contentIsActive = document.getElementById('contentIsActive');
+    
+    if (contentId) contentId.value = '';
+    if (modalTitle) modalTitle.textContent = 'Nuevo Contenido';
+    if (contentIsActive) contentIsActive.checked = true;
+    
+    // Mostrar modal
+    const modalEl = document.getElementById('contentModal');
+    if (modalEl) {
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+    }
+}
+
+async function openEditContentModal(id) {
+    try {
+        showLoading();
         
-        modalTitle.innerHTML = '<i class="fas fa-edit me-2"></i>Editar Noticia';
-        btnSaveText.textContent = 'Actualizar';
+        const content = await getContent(id);
         
         // Llenar formulario
-        document.getElementById('newsId').value = news.id;
-        document.getElementById('newsTitle').value = news.title || '';
-        document.getElementById('newsCategory').value = news.category || '';
-        document.getElementById('newsExcerpt').value = news.excerpt || news.summary || '';
-        document.getElementById('newsContent').value = news.content || '';
-        document.getElementById('newsImage').value = news.image || news.image_url || '';
-        document.getElementById('newsAuthor').value = news.author || news.author_name || '';
+        document.getElementById('contentId').value = content.id || '';
+        document.getElementById('contentType').value = content.type || '';
+        document.getElementById('contentPage').value = content.page || '';
+        document.getElementById('contentKey').value = content.key || '';
+        document.getElementById('contentTitle').value = content.title || '';
+        document.getElementById('contentBody').value = content.body || '';
+        document.getElementById('contentImageUrl').value = content.image_url || '';
+        document.getElementById('contentIsActive').checked = content.is_active !== false;
         
-        // Formatear fecha
-        const newsDate = news.created_at || news.date || news.published_at;
-        if (newsDate) {
-            document.getElementById('newsDate').value = newsDate.split('T')[0];
+        // Actualizar título del modal
+        document.getElementById('modalTitle').textContent = 'Editar Contenido';
+        
+        // Mostrar modal
+        const modalEl = document.getElementById('contentModal');
+        if (modalEl) {
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
         }
         
-    } else {
-        // Modo creación
-        modalTitle.innerHTML = '<i class="fas fa-plus-circle me-2"></i>Nueva Noticia';
-        btnSaveText.textContent = 'Guardar';
-        resetNewsForm();
+    } catch (error) {
+        showAlert(`Error al obtener contenido: ${error.message}`, 'danger');
+    } finally {
+        hideLoading();
     }
-    
-    newsModal.show();
 }
 
-/**
- * Resetea el formulario de noticias
- */
-function resetNewsForm() {
-    document.getElementById('newsForm').reset();
-    document.getElementById('newsId').value = '';
-    editingNewsId = null;
-    document.getElementById('newsDate').valueAsDate = new Date();
-}
-
-/**
- * Guarda una noticia (crear o actualizar)
- */
-async function saveNews() {
-    console.log('💾 Guardando noticia...');
-    
+// ===== CRUD OPERATIONS =====
+async function saveContent() {
     // Validar formulario
-    const form = document.getElementById('newsForm');
-    if (!form.checkValidity()) {
-        form.reportValidity();
+    const contentType = document.getElementById('contentType').value;
+    const contentPage = document.getElementById('contentPage').value;
+    const contentKey = document.getElementById('contentKey').value;
+    const contentTitle = document.getElementById('contentTitle').value;
+    
+    if (!contentType || !contentPage || !contentKey || !contentTitle) {
+        showAlert('Por favor completa todos los campos obligatorios', 'warning');
         return;
     }
     
-    // Recopilar datos
-    const newsData = {
-        title: document.getElementById('newsTitle').value.trim(),
-        category: document.getElementById('newsCategory').value,
-        excerpt: document.getElementById('newsExcerpt').value.trim(),
-        content: document.getElementById('newsContent').value.trim(),
-        date: document.getElementById('newsDate').value,
-        image: document.getElementById('newsImage').value.trim(),
-        author: document.getElementById('newsAuthor').value.trim()
+    // Recopilar datos del formulario
+    const contentData = {
+        type: contentType,
+        page: contentPage,
+        key: contentKey.trim(),
+        title: contentTitle.trim(),
+        body: document.getElementById('contentBody').value?.trim() || '',
+        image_url: document.getElementById('contentImageUrl').value?.trim() || '',
+        is_active: document.getElementById('contentIsActive').checked
     };
     
-    // Campos opcionales
-    if (!newsData.image) delete newsData.image;
-    if (!newsData.author) delete newsData.author;
-    
-    const btnSave = document.getElementById('btnSaveNews');
-    const originalText = btnSave.innerHTML;
-    btnSave.disabled = true;
-    btnSave.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Guardando...';
-    
     try {
-        const url = editingNewsId 
-            ? `${API_URL}/news/${editingNewsId}`
-            : `${API_URL}/news`;
+        const id = document.getElementById('contentId').value;
         
-        const method = editingNewsId ? 'PUT' : 'POST';
-        
-        console.log(`📡 ${method} ${url}`);
-        console.log('📦 Datos:', JSON.stringify(newsData, null, 2));
-        
-        const response = await fetch(url, {
-            method: method,
-            headers: getAuthHeaders(),
-            body: JSON.stringify(newsData)
-        });
-        
-        // Manejar error de autenticación
-        if (response.status === 401 || response.status === 403) {
-            handleAuthError();
-            return;
+        if (id) {
+            // Actualizar
+            await updateContent(parseInt(id), contentData);
+            showAlert('Contenido actualizado correctamente', 'success');
+        } else {
+            // Crear
+            await createContent(contentData);
+            showAlert('Contenido creado correctamente', 'success');
         }
-        
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.detail || `Error ${response.status}`);
-        }
-        
-        const savedNews = await response.json();
-        console.log('✅ Noticia guardada:', savedNews);
         
         // Cerrar modal y recargar
-        newsModal.hide();
-        showAlert(
-            editingNewsId ? 'Noticia actualizada correctamente.' : 'Noticia creada correctamente.',
-            'success'
-        );
+        const modalEl = document.getElementById('contentModal');
+        if (modalEl) {
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+        }
         
-        loadNews();
+        loadContents();
         
     } catch (error) {
-        console.error('❌ Error guardando noticia:', error);
+        console.error('❌ Error guardando contenido:', error.message);
         showAlert(`Error al guardar: ${error.message}`, 'danger');
-    } finally {
-        btnSave.disabled = false;
-        btnSave.innerHTML = originalText;
     }
 }
 
-/**
- * Prepara la eliminación de una noticia
- * @param {number} id
- */
-function deleteNews(id) {
-    const news = currentNews.find(n => n.id === id);
-    if (!news) {
-        showAlert('No se encontró la noticia.', 'danger');
+function deleteContentPrompt(id) {
+    const content = contents.find(c => c.id === id);
+    if (!content) {
+        showAlert('Contenido no encontrado', 'danger');
         return;
     }
     
-    document.getElementById('deleteNewsTitle').textContent = news.title;
-    document.getElementById('btnConfirmDelete').dataset.id = id;
-    deleteModal.show();
-}
-
-/**
- * Confirma y ejecuta la eliminación
- */
-async function confirmDelete() {
-    const btnDelete = document.getElementById('btnConfirmDelete');
-    const id = btnDelete.dataset.id;
+    contentToDelete = id;
     
-    if (!id) return;
+    // Llenar información en modal de confirmación
+    document.getElementById('deleteContentType').textContent = content.type || '-';
+    document.getElementById('deleteContentPage').textContent = content.page || '-';
+    document.getElementById('deleteContentTitle').textContent = content.title || '-';
     
-    console.log(`🗑️ Eliminando noticia ID: ${id}`);
-    
-    btnDelete.disabled = true;
-    btnDelete.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Eliminando...';
-    
-    try {
-        const response = await fetch(`${API_URL}/news/${id}`, {
-            method: 'DELETE',
-            headers: getAuthHeaders()
-        });
-        
-        // Manejar error de autenticación
-        if (response.status === 401 || response.status === 403) {
-            handleAuthError();
-            return;
-        }
-        
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.detail || `Error ${response.status}`);
-        }
-        
-        console.log('✅ Noticia eliminada');
-        deleteModal.hide();
-        showAlert('Noticia eliminada correctamente.', 'success');
-        loadNews();
-        
-    } catch (error) {
-        console.error('❌ Error eliminando noticia:', error);
-        showAlert(`Error al eliminar: ${error.message}`, 'danger');
-    } finally {
-        btnDelete.disabled = false;
-        btnDelete.innerHTML = '<i class="fas fa-trash me-1"></i>Eliminar';
+    // Mostrar modal de confirmación
+    const deleteModalEl = document.getElementById('deleteModal');
+    if (deleteModalEl) {
+        const deleteModal = new bootstrap.Modal(deleteModalEl);
+        deleteModal.show();
     }
 }
 
-/**
- * Cierra la sesión del usuario
- */
-function logout() {
-    console.log('🚪 Cerrando sesión...');
-    localStorage.removeItem(TOKEN_KEY);
-    console.log('✅ Token removido');
-    window.location.href = 'login.html';
+async function confirmDelete() {
+    if (!contentToDelete) return;
+    
+    try {
+        showLoading();
+        
+        await deleteContent(parseInt(contentToDelete));
+        
+        showAlert('Contenido eliminado correctamente', 'success');
+        
+        // Cerrar modal de confirmación
+        const deleteModalEl = document.getElementById('deleteModal');
+        if (deleteModalEl) {
+            const deleteModal = bootstrap.Modal.getInstance(deleteModalEl);
+            if (deleteModal) deleteModal.hide();
+        }
+        
+        // Recargar lista
+        loadContents();
+        
+    } catch (error) {
+        console.error('❌ Error eliminando contenido:', error.message);
+        showAlert(`Error al eliminar: ${error.message}`, 'danger');
+    } finally {
+        hideLoading();
+        contentToDelete = null;
+    }
 }
 
-// ===== FUNCIONES AUXILIARES =====
-
-/**
- * Muestra una alerta
- * @param {string} message
- * @param {string} type - 'success', 'danger', 'warning', 'info'
- */
+// ===== ALERTAS =====
 function showAlert(message, type = 'info') {
-    const icons = {
-        success: 'fa-check-circle',
-        danger: 'fa-exclamation-circle',
-        warning: 'fa-exclamation-triangle',
-        info: 'fa-info-circle'
+    if (!alertContainer) return;
+    
+    // Tipos de alertas Bootstrap
+    const alertClasses = {
+        'success': 'alert-success',
+        'danger': 'alert-danger',
+        'warning': 'alert-warning',
+        'info': 'alert-info'
     };
     
-    alertContainer.innerHTML = `
-        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-            <i class="fas ${icons[type]} me-2"></i>
+    const alertClass = alertClasses[type] || 'alert-info';
+    
+    const alertHtml = `
+        <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+            <i class="fas fa-info-circle me-2"></i>
             ${escapeHtml(message)}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
         </div>
     `;
+    
+    alertContainer.innerHTML = alertHtml;
     alertContainer.style.display = 'block';
     
-    // Auto-hide después de 5 segundos para alertas de éxito
+    // Auto-ocultar después de 5 segundos para alertas de éxito
     if (type === 'success') {
         setTimeout(() => {
-            alertContainer.style.display = 'none';
+            const alert = alertContainer.querySelector('.alert');
+            if (alert) {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }
         }, 5000);
     }
 }
 
-/**
- * Muestra/oculta el loading
- * @param {boolean} show
- */
-function showLoading(show) {
-    loadingSpinner.style.display = show ? 'flex' : 'none';
-    tableContainer.style.display = show ? 'none' : 'none';
+// ===== ESTADOS DE VISTA =====
+function showLoading() {
+    if (loadingSpinner) loadingSpinner.style.display = 'flex';
+    if (tableContainer) tableContainer.style.display = 'none';
+    if (emptyState) emptyState.style.display = 'none';
+    if (alertContainer) alertContainer.style.display = 'none';
 }
 
-/**
- * Muestra el estado vacío
- */
-function showEmptyState() {
-    loadingSpinner.style.display = 'none';
-    tableContainer.style.display = 'none';
-    emptyState.style.display = 'block';
+function hideLoading() {
+    if (loadingSpinner) loadingSpinner.style.display = 'none';
 }
 
-/**
- * Oculta el estado vacío
- */
-function hideEmptyState() {
-    loadingSpinner.style.display = 'none';
-    tableContainer.style.display = 'block';
-    emptyState.style.display = 'none';
+function showTable() {
+    if (tableContainer) tableContainer.style.display = 'block';
+    if (emptyState) emptyState.style.display = 'none';
 }
 
-/**
- * Formatea una fecha
- * @param {string} dateString
- * @returns {string}
- */
-function formatDate(dateString) {
-    if (!dateString) return '-';
-    
-    try {
-        const date = new Date(dateString);
-        if (isNaN(date.getTime())) return dateString;
-        
-        return date.toLocaleDateString('es-DO', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
-        });
-    } catch {
-        return dateString;
-    }
+function showEmptyState(show = true) {
+    if (emptyState) emptyState.style.display = show ? 'block' : 'none';
+    if (tableContainer) tableContainer.style.display = show ? 'none' : 'block';
 }
 
-/**
- * Escapa HTML para prevenir XSS
- * @param {string} text
- * @returns {string}
- */
+function hideAllStates() {
+    if (loadingSpinner) loadingSpinner.style.display = 'none';
+    if (tableContainer) tableContainer.style.display = 'none';
+    if (emptyState) emptyState.style.display = 'none';
+}
+
+// ===== UTILIDADES =====
 function escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');
@@ -568,12 +457,8 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// ===== EXPORTAR FUNCIONES GLOBALMENTE =====
-// Estas funciones se llaman desde los botones onclick en el HTML
-window.editNews = editNews;
-window.deleteNews = deleteNews;
-window.logout = logout;
-
+// Log de inicialización
 console.log('✅ Admin JS cargado correctamente');
 console.log('📡 API URL:', API_URL);
+console.log('🔐 Token disponible:', !!getToken());
 

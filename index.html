@@ -9,7 +9,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
     <header>
@@ -48,6 +48,8 @@
         <!-- MAIN -->
 
 <section id="inicio" class="section active">
+<!-- CMS Container: Hero -->
+<div id="hero-container">
 <!-- Hero Section Responsive -->
 <div class="hero-section-responsive">
     <div class="hero-image-container">
@@ -66,6 +68,8 @@
         </div>
     </div>
 </div>
+</div>
+<!-- End CMS Container: Hero -->
 <!-- quienes somos main-->
 <div class="accordion" id="accordionPanelsStayOpenExample">
         <div class="accordion-item">
@@ -394,6 +398,8 @@
 
 <!-- NOTICIAS -->
 <section class="section" id="noticias">
+<!-- CMS Container: News -->
+<div id="news-container">
     <!-- Hero Section de Noticias -->
     <div class="news-hero">
         <div class="hero-overlay"></div>
@@ -433,7 +439,7 @@
         <div class="container">
             <!-- Noticia Destacada -->
             <div class="featured-news mb-5">
-                <div class="news-card featured-card" data-category="academicas">
+                <div class="news-card featured-card" data-category="academicas" onclick="openNewsModal(1)" style="cursor: pointer;">
                     <div class="news-image">
                         <img src="./assets/images/poli-img-13.jpeg" alt="Graduación 2024" loading="lazy">
                         <div class="news-category-badge">Académicas</div>
@@ -452,7 +458,7 @@
                         </div>
                         <h3 class="news-title">Ceremonia de Graduación 2024: 150 Nuevos Profesionales</h3>
                         <p class="news-excerpt">Celebramos con orgullo la graduación de 150 estudiantes que culminaron exitosamente sus estudios en el Politécnico Ann y Ted Kheel, marcando un hito importante en la historia institucional.</p>
-                        <button class="read-more-btn" onclick="openNewsModal(1)">
+                        <button class="read-more-btn" onclick="event.stopPropagation(); openNewsModal(1)">
                             Leer más
                             <i class="fas fa-arrow-right"></i>
                         </button>
@@ -460,10 +466,25 @@
                 </div>
             </div>
 
+            <!-- Contenedor de Noticias Dinámicas -->
+            <div id="dynamic-news-container">
+                <div class="row" id="news-grid"></div>
+            </div>
+
+            <!-- Mensaje de sin resultados -->
+            <div id="no-results-message" class="no-results-message" style="display: none;">
+                <div class="text-center py-5">
+                    <i class="fas fa-newspaper" style="font-size: 4rem; color: var(--gris-medio);"></i>
+                    <h4 class="mt-3" style="color: var(--azul-poli);">No se encontraron noticias</h4>
+                    <p style="color: var(--gris-oscuro);">No hay noticias disponibles en esta categoría.</p>
+                    <button class="filter-btn mt-3" data-category="todas">Ver todas las noticias</button>
+                </div>
+            </div>
+
             <!-- Grid de Noticias Regulares -->
             <div class="row" id="news-grid">
                 <!-- Noticia 1 -->
-                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="eventos">
+                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="eventos" onclick="openNewsModal(2)" style="cursor: pointer;">
                     <div class="news-card">
                         <div class="news-image">
                             <img src="./assets/images/poli-img-2.png" alt="Feria Tecnológica" loading="lazy">
@@ -478,7 +499,7 @@
                             </div>
                             <h4 class="news-title">Feria Tecnológica Anual 2025</h4>
                             <p class="news-excerpt">Los estudiantes展示arán sus proyectos más innovadores en nuestra feria tecnológica anual...</p>
-                            <button class="read-more-btn small" onclick="openNewsModal(2)">
+                            <button class="read-more-btn small" onclick="event.stopPropagation(); openNewsModal(2)">
                                 Leer más
                                 <i class="fas fa-arrow-right"></i>
                             </button>
@@ -487,7 +508,7 @@
                 </div>
 
                 <!-- Noticia 2 -->
-                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="deportivas">
+                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="deportivas" onclick="openNewsModal(3)" style="cursor: pointer;">
                     <div class="news-card">
                         <div class="news-image">
                             <img src="./assets/images/poli-img-12.jpeg" alt="Campeonato Deportivo" loading="lazy">
@@ -502,7 +523,7 @@
                             </div>
                             <h4 class="news-title">Campeonato Deportivo Intercursos</h4>
                             <p class="news-excerpt">Nuestros estudiantes compitieron en diversas disciplinas deportivas demostrando espíritu de superación...</p>
-                            <button class="read-more-btn small" onclick="openNewsModal(3)">
+                            <button class="read-more-btn small" onclick="event.stopPropagation(); openNewsModal(3)">
                                 Leer más
                                 <i class="fas fa-arrow-right"></i>
                             </button>
@@ -511,7 +532,7 @@
                 </div>
 
                 <!-- Noticia 3 -->
-                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="academicas">
+                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="academicas" onclick="openNewsModal(4)" style="cursor: pointer;">
                     <div class="news-card">
                         <div class="news-image">
                             <img src="./assets/images/poli-img-11.jpeg" alt="Nuevo Laboratorio" loading="lazy">
@@ -526,7 +547,7 @@
                             </div>
                             <h4 class="news-title">Inauguración del Nuevo Laboratorio de Robótica</h4>
                             <p class="news-excerpt">La institución incorporó tecnología de vanguardia para fortalecer la formación en ingeniería...</p>
-                            <button class="read-more-btn small" onclick="openNewsModal(4)">
+                            <button class="read-more-btn small" onclick="event.stopPropagation(); openNewsModal(4)">
                                 Leer más
                                 <i class="fas fa-arrow-right"></i>
                             </button>
@@ -535,7 +556,7 @@
                 </div>
 
                 <!-- Noticia 4 -->
-                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="cultura">
+                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="cultura" onclick="openNewsModal(5)" style="cursor: pointer;">
                     <div class="news-card">
                         <div class="news-image">
                             <img src="./assets/images/poli-img15.jpeg" alt="Festival Cultural" loading="lazy">
@@ -550,7 +571,7 @@
                             </div>
                             <h4 class="news-title">Festival Cultural Estudiantil</h4>
                             <p class="news-excerpt">Una celebración de la diversidad cultural con presentaciones artísticas y gastronómicas...</p>
-                            <button class="read-more-btn small" onclick="openNewsModal(5)">
+                            <button class="read-more-btn small" onclick="event.stopPropagation(); openNewsModal(5)">
                                 Leer más
                                 <i class="fas fa-arrow-right"></i>
                             </button>
@@ -560,7 +581,7 @@
 
 
                 <!-- Noticia 5 -->
-                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="academicas">
+                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="academicas" onclick="openNewsModal(6)" style="cursor: pointer;">
                     <div class="news-card">
                         <div class="news-image">
                             <img src="./assets/images/poli-img-17.jpeg" alt="Nuevos Programas" loading="lazy">
@@ -575,7 +596,7 @@
                             </div>
                             <h4 class="news-title">Nuevos Programas Académicos 2025</h4>
                             <p class="news-excerpt">El Politécnico lanza nuevos programas especializados en tecnología y administración...</p>
-                            <button class="read-more-btn small" onclick="openNewsModal(6)">
+                            <button class="read-more-btn small" onclick="event.stopPropagation(); openNewsModal(6)">
                                 Leer más
                                 <i class="fas fa-arrow-right"></i>
                             </button>
@@ -584,7 +605,7 @@
                 </div>
 
                 <!-- Noticia 6 -->
-                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="eventos">
+                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="eventos" onclick="openNewsModal(7)" style="cursor: pointer;">
                     <div class="news-card">
                         <div class="news-image">
                             <img src="./assets/images/poli-img-16.jpeg" alt="Conferencia Magistral" loading="lazy">
@@ -599,7 +620,7 @@
                             </div>
                             <h4 class="news-title">Conferencia Magistral de Innovación</h4>
                             <p class="news-excerpt">Expertos internacionales compartieron las últimas tendencias en educación técnica...</p>
-                            <button class="read-more-btn small" onclick="openNewsModal(7)">
+                            <button class="read-more-btn small" onclick="event.stopPropagation(); openNewsModal(7)">
                                 Leer más
                                 <i class="fas fa-arrow-right"></i>
                             </button>
@@ -608,7 +629,7 @@
                 </div>
 
                 <!-- Noticia 7 -->
-                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="deportivas">
+                <div class="col-lg-4 col-md-6 mb-4 news-item" data-category="deportivas" onclick="openNewsModal(8)" style="cursor: pointer;">
                     <div class="news-card">
                         <div class="news-image">
                             <img src="./assets/images/poli-img-18.jpeg" alt="Torneo de Fútbol" loading="lazy">
@@ -623,7 +644,7 @@
                             </div>
                             <h4 class="news-title">Torneo de Fútbol Intercursos</h4>
                             <p class="news-excerpt">El torneo anual de fútbol reunió a más de 200 estudiantes en competencia amistosa...</p>
-                            <button class="read-more-btn small" onclick="openNewsModal(8)">
+                            <button class="read-more-btn small" onclick="event.stopPropagation(); openNewsModal(8)">
                                 Leer más
                                 <i class="fas fa-arrow-right"></i>
                             </button>
@@ -633,6 +654,8 @@
             </div>
         </div>
     </div>
+</div>
+<!-- End CMS Container: News -->
 </section>
 
 <!-- Modal para leer noticias completas -->
@@ -796,6 +819,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </section>
     </main>
     
@@ -814,7 +838,9 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="app.js"></script>
-    <script src="noticias.js"></script>
+    
+    <!-- Main Application Script -->
+    <script type="module" src="js/app.js" defer></script>
+    <script src="js/news.js" defer></script>
 </body>
 </html>
