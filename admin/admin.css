@@ -69,6 +69,78 @@ body {
     width: auto;
 }
 
+/* ===== BOTÓN HAMBURGUESA ===== */
+.navbar-toggle-btn {
+    display: none;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    color: white;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: var(--transition-base);
+    margin-left: auto;
+    margin-right: 0.5rem; /* Separación adicional hacia la derecha */
+}
+
+.navbar-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.navbar-toggle-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+/* Menú colapsable responsive */
+.navbar-collapse-responsive {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, var(--azul-poli) 0%, var(--azul-medio) 100%);
+    padding: 0.5rem 1rem 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-collapse-responsive.show {
+    display: block;
+}
+
+.responsive-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.responsive-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.responsive-nav .nav-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+}
+
+.responsive-nav .nav-link.active {
+    background: rgba(255, 255, 255, 0.18);
+    color: white;
+}
+
 /* ===== NAVEGACIÓN HORIZONTAL ===== */
 .horizontal-nav {
     display: flex;
@@ -424,13 +496,20 @@ body {
         padding: 0.75rem 1rem;
     }
     
-    .admin-main-content {
-        padding: 1rem;
+    /* Mostrar botón hamburguesa */
+    .navbar-toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     /* Ocultar navegación horizontal en tablets */
-    .horizontal-nav.d-none {
+    .horizontal-nav {
         display: none !important;
+    }
+    
+    .admin-main-content {
+        padding: 1rem;
     }
 }
 

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - Politécnico Ann y Ted Kheel</title>
+    <title>Gestión de Notas - Politécnico Ann y Ted Kheel</title>
     
     <!-- Meta tags -->
-    <meta name="description" content="Panel de administración del Politécnico Ann y Ted Kheel">
+    <meta name="description" content="Panel de administración de notas del Politécnico Ann y Ted Kheel">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.png">
@@ -48,13 +48,13 @@
                 <!-- Navegación horizontal (visible en lg+) -->
                 <ul class="navbar-nav horizontal-nav d-none d-lg-flex">
                     <li class="nav-item">
-                        <a href="admin.html" id="menu-dashboard" class="nav-link active">
+                        <a href="admin.html" id="menu-dashboard" class="nav-link">
                             <i class="fas fa-cubes nav-icon"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="notes.html" id="menu-notes" class="nav-link">
+                        <a href="notes.html" id="menu-notes" class="nav-link active">
                             <i class="fas fa-book nav-icon"></i>
                             <span>Notas</span>
                         </a>
@@ -90,13 +90,13 @@
         <div class="collapse navbar-collapse-responsive d-lg-none" id="navbarCollapse">
             <ul class="navbar-nav responsive-nav">
                 <li class="nav-item">
-                    <a href="admin.html" id="menu-dashboard-mobile" class="nav-link active">
+                    <a href="admin.html" id="menu-dashboard-mobile" class="nav-link">
                         <i class="fas fa-cubes nav-icon"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="notes.html" id="menu-notes-mobile" class="nav-link">
+                    <a href="notes.html" id="menu-notes-mobile" class="nav-link active">
                         <i class="fas fa-book nav-icon"></i>
                         <span>Notas</span>
                     </a>
@@ -116,20 +116,23 @@
             <div class="admin-main-content">
                 <div class="container-fluid px-4 py-4">
                     
-                    <!-- Header del Dashboard -->
+                    <!-- Header de Notas -->
                     <div class="dashboard-header mb-4">
                         <div class="row align-items-center">
                             <div class="col-md-6">
                                 <h1 class="dashboard-title">
-                                    <i class="fas fa-cubes me-2"></i>
-                                    Gestión de Contenidos CMS
+                                    <i class="fas fa-book me-2"></i>
+                                    Gestión de Notas
                                 </h1>
                                 <p class="dashboard-subtitle text-muted mb-0">
-                                    Administra todos los contenidos del Politécnico Ann y Ted Kheel
+                                    Administra las notas y anuncios del Politécnico Ann y Ted Kheel
                                 </p>
                             </div>
                             <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                                <!-- Botón de nuevo contenido eliminado -->
+                                <button id="btnNewNote" class="btn btn-admin-primary" data-bs-toggle="modal" data-bs-target="#noteModal">
+                                    <i class="fas fa-plus me-1"></i>
+                                    Nueva Nota
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -139,20 +142,16 @@
                         <!-- Las alertas se insertarán aquí dinámicamente -->
                     </div>
 
-                    <!-- Panel de Contenidos -->
+                    <!-- Panel de Notas -->
                     <div class="admin-card">
                         <div class="card-header-admin d-flex justify-content-between align-items-center flex-wrap gap-2">
                             <h5 class="mb-0">
                                 <i class="fas fa-list me-2"></i>
-                                Listado de Contenidos
+                                Listado de Notas
                             </h5>
                             <div class="d-flex align-items-center gap-2">
-                                <span class="badge bg-light text-dark" id="contentCount">0 contenidos</span>
-                                <button id="toggleViewBtn" class="btn btn-sm btn-outline-primary" title="Cambiar vista" onclick="window.toggleContentView()">
-                                    <i class="fas fa-list me-1"></i>
-                                    <span class="d-none d-sm-inline">Vista Lista</span>
-                                </button>
-                                <button id="btnRefresh" class="btn btn-sm btn-outline-light" title="Actualizar lista">
+                                <span class="badge bg-light text-dark" id="notesCount">0 notas</span>
+                                <button id="btnRefreshNotes" class="btn btn-sm btn-outline-light" title="Actualizar lista">
                                     <i class="fas fa-sync-alt"></i>
                                 </button>
                             </div>
@@ -163,94 +162,86 @@
                             <div class="p-3 bg-light border-bottom">
                                 <div class="row g-2">
                                     <div class="col-md-3 col-sm-6">
-                                        <label class="form-label small mb-1">Filtrar por Tipo</label>
-                                        <select id="filterType" class="form-select form-select-sm">
+                                        <label class="form-label small mb-1">Tipo de Nota</label>
+                                        <select id="filterNoteType" class="form-select form-select-sm">
                                             <option value="">Todos los tipos</option>
-                                            <option value="news">Noticias</option>
-                                            <option value="page">Páginas</option>
-                                            <option value="section">Secciones</option>
-                                            <option value="image">Imágenes</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6">
-                                        <label class="form-label small mb-1">Filtrar por Página</label>
-                                        <select id="filterPage" class="form-select form-select-sm">
-                                            <option value="">Todas las páginas</option>
-                                            <option value="home">Inicio</option>
-                                            <option value="about">Nosotros</option>
-                                            <option value="global">Global</option>
-                                            <option value="academics">Académicos</option>
-                                            <option value="admissions">Admisiones</option>
-                                            <option value="contact">Contacto</option>
+                                            <option value="general">General</option>
+                                            <option value="homework">Tarea</option>
+                                            <option value="exam">Examen</option>
+                                            <option value="announcement">Anuncio</option>
+                                            <option value="reminder">Recordatorio</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-sm-6">
                                         <label class="form-label small mb-1">Estado</label>
-                                        <select id="filterActive" class="form-select form-select-sm">
+                                        <select id="filterNoteActive" class="form-select form-select-sm">
                                             <option value="">Todos</option>
-                                            <option value="true">Activos</option>
-                                            <option value="false">Inactivos</option>
+                                            <option value="true">Activas</option>
+                                            <option value="false">Inactivas</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3 col-sm-6 d-flex align-items-end">
-                                        <button id="btnClearFilters" class="btn btn-outline-secondary btn-sm w-100">
+                                    <div class="col-md-4 col-sm-6">
+                                        <label class="form-label small mb-1">Buscar</label>
+                                        <input type="text" id="searchNotes" class="form-control form-control-sm" placeholder="Buscar por título...">
+                                    </div>
+                                    <div class="col-md-2 col-sm-6 d-flex align-items-end">
+                                        <button id="btnClearNoteFilters" class="btn btn-outline-secondary btn-sm w-100">
                                             <i class="fas fa-times me-1"></i>
-                                            Limpiar Filtros
+                                            Limpiar
                                         </button>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Loading spinner -->
-                            <div id="loadingSpinner" class="loading-container">
+                            <div id="loadingSpinnerNotes" class="loading-container">
                                 <div class="spinner-border text-primary" role="status">
                                     <span class="visually-hidden">Cargando...</span>
                                 </div>
-                                <p class="mt-2 text-muted">Cargando contenidos...</p>
+                                <p class="mt-2 text-muted">Cargando notas...</p>
                             </div>
 
-                            <!-- Tabla de contenidos -->
-                            <div class="table-responsive" id="tableContainer" style="display: none;">
+                            <!-- Tabla de notas -->
+                            <div class="table-responsive" id="tableContainerNotes" style="display: none;">
                                 <table class="table table-hover admin-table mb-0">
                                     <thead>
                                         <tr>
                                             <th width="50">ID</th>
                                             <th width="100">Tipo</th>
-                                            <th width="120">Página</th>
-                                            <th width="150">Key</th>
+                                            <th width="120">Fecha</th>
                                             <th>Título</th>
+                                            <th>Descripción</th>
                                             <th width="90">Activo</th>
-                                            <th width="120" class="text-end">Acciones</th>
+                                            <th width="140" class="text-end">Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="contentsTableBody">
-                                        <!-- Los contenidos se insertarán aquí -->
+                                    <tbody id="notesTableBody">
+                                        <!-- Las notas se insertarán aquí -->
                                     </tbody>
                                 </table>
                             </div>
 
                             <!-- Empty state -->
-                            <div id="emptyState" class="empty-state" style="display: none;">
+                            <div id="emptyStateNotes" class="empty-state" style="display: none;">
                                 <div class="empty-icon">
-                                    <i class="fas fa-cube"></i>
+                                    <i class="fas fa-book"></i>
                                 </div>
-                                <h4 class="empty-title">No hay contenidos</h4>
-                                <p class="empty-text">No se encontraron contenidos con los filtros seleccionados.</p>
-                            </div>
-
-                            <!-- ContentList Component Container -->
-                            <div id="contentListContainer" style="display: none;">
-                                <!-- ContentList renderizará aquí -->
+                                <h4 class="empty-title">No hay notas</h4>
+                                <p class="empty-text">No se encontraron notas con los filtros seleccionados.</p>
+                                <button class="btn btn-admin-primary mt-3" data-bs-toggle="modal" data-bs-target="#noteModal">
+                                    <i class="fas fa-plus me-1"></i>
+                                    Crear primera nota
+                                </button>
                             </div>
 
                             <!-- Paginación -->
-                            <div id="paginationContainer" class="pagination-container" style="display: none;">
+                            <div id="paginationContainerNotes" class="pagination-container" style="display: none;">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 px-3 py-2 bg-light border-top">
                                     <div class="pagination-info">
-                                        <span id="paginationRange">Mostrando 0-0 de 0</span>
+                                        <span id="paginationRangeNotes">Mostrando 0-0 de 0</span>
                                     </div>
-                                    <nav aria-label="Paginación de contenidos">
-                                        <ul class="pagination pagination-sm mb-0" id="paginationControls">
+                                    <nav aria-label="Paginación de notas">
+                                        <ul class="pagination pagination-sm mb-0" id="paginationControlsNotes">
                                             <!-- Botones de paginación se renderizarán aquí -->
                                         </ul>
                                     </nav>
@@ -262,101 +253,83 @@
             </div>
         </main>
 
-    <!-- ===== MODAL PARA CREAR/EDITAR CONTENIDO ===== -->
-    <div class="modal fade" id="contentModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
+    <!-- ===== MODAL PARA CREAR/EDITAR NOTA ===== -->
+    <div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="contentModalLabel">
+                    <h5 class="modal-title" id="noteModalLabel">
                         <i class="fas fa-edit me-2"></i>
-                        <span id="modalTitle">Nuevo Contenido</span>
+                        <span id="modalNoteTitle">Nueva Nota</span>
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="contentForm">
-                        <input type="hidden" id="contentId">
+                    <form id="noteForm">
+                        <input type="hidden" id="noteId">
                         
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="contentType" class="form-label">
+                                <label for="noteType" class="form-label">
                                     <i class="fas fa-tag me-1"></i>
-                                    Tipo <span class="text-danger">*</span>
+                                    Tipo de Nota <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-select" id="contentType" required>
+                                <select class="form-select" id="noteType" required>
                                     <option value="">Seleccionar tipo</option>
-                                    <option value="news">Noticia</option>
-                                    <option value="page">Página</option>
-                                    <option value="section">Sección</option>
-                                    <option value="image">Imagen</option>
+                                    <option value="general">General</option>
+                                    <option value="homework">Tarea</option>
+                                    <option value="exam">Examen</option>
+                                    <option value="announcement">Anuncio</option>
+                                    <option value="reminder">Recordatorio</option>
                                 </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="contentPage" class="form-label">
-                                    <i class="fas fa-sitemap me-1"></i>
-                                    Página <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-select" id="contentPage" required>
-                                    <option value="">Seleccionar página</option>
-                                    <option value="home">Inicio</option>
-                                    <option value="about">Nosotros</option>
-                                    <option value="global">Global</option>
-                                    <option value="academics">Académicos</option>
-                                    <option value="admissions">Admisiones</option>
-                                    <option value="contact">Contacto</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="contentKey" class="form-label">
-                                    <i class="fas fa-key me-1"></i>
-                                    Key (identificador único) <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="contentKey" 
-                                       placeholder="Ej: hero_title, about_text" required
-                                       pattern="[a-z_]+" 
-                                       title="Solo letras minúsculas y guiones bajos">
-                                <div class="form-text">Identificador único dentro de la página</div>
                             </div>
                             <div class="col-md-6 mb-3 d-flex align-items-end">
                                 <div class="form-check mt-3">
-                                    <input class="form-check-input" type="checkbox" id="contentIsActive" checked>
-                                    <label class="form-check-label" for="contentIsActive">
-                                        <strong>Contenido activo</strong>
+                                    <input class="form-check-input" type="checkbox" id="noteIsActive" checked>
+                                    <label class="form-check-label" for="noteIsActive">
+                                        <strong>Nota activa</strong>
                                     </label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="contentTitle" class="form-label">
+                            <label for="noteTitle" class="form-label">
                                 <i class="fas fa-heading me-1"></i>
                                 Título <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control" id="contentTitle" 
-                                   placeholder="Ingresa el título" required maxlength="200">
+                            <input type="text" class="form-control" id="noteTitle" 
+                                   placeholder="Ingresa el título de la nota" required maxlength="200">
                             <div class="form-text">Máximo 200 caracteres</div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="contentBody" class="form-label">
-                                <i class="fas fa-paragraph me-1"></i>
-                                Cuerpo del contenido
+                            <label for="noteDescription" class="form-label">
+                                <i class="fas fa-align-left me-1"></i>
+                                Descripción
                             </label>
-                            <textarea class="form-control" id="contentBody" rows="6" 
-                                      placeholder="Escribe el contenido completo..."></textarea>
+                            <textarea class="form-control" id="noteDescription" rows="4" 
+                                      placeholder="Escribe una descripción o detalles de la nota..."></textarea>
                         </div>
 
                         <div class="mb-3">
-                            <label for="contentImageUrl" class="form-label">
-                                <i class="fas fa-image me-1"></i>
-                                URL de imagen
+                            <label for="noteDate" class="form-label">
+                                <i class="fas fa-calendar me-1"></i>
+                                Fecha
                             </label>
-                            <input type="url" class="form-control" id="contentImageUrl" 
-                                   placeholder="https://ejemplo.com/imagen.jpg">
-                            <div class="form-text">Opcional: URL de la imagen asociada</div>
+                            <input type="date" class="form-control" id="noteDate">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="notePriority" class="form-label">
+                                <i class="fas fa-exclamation-circle me-1"></i>
+                                Prioridad
+                            </label>
+                            <select class="form-select" id="notePriority">
+                                <option value="low">Baja</option>
+                                <option value="normal" selected>Normal</option>
+                                <option value="high">Alta</option>
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -365,9 +338,9 @@
                         <i class="fas fa-times me-1"></i>
                         Cancelar
                     </button>
-                    <button type="button" class="btn btn-admin-primary" id="btnSaveContent">
+                    <button type="button" class="btn btn-admin-primary" id="btnSaveNote">
                         <i class="fas fa-save me-1"></i>
-                        <span id="btnSaveText">Guardar</span>
+                        <span id="btnSaveNoteText">Guardar</span>
                     </button>
                 </div>
             </div>
@@ -375,34 +348,33 @@
     </div>
 
     <!-- ===== MODAL DE CONFIRMACIÓN PARA ELIMINAR ===== -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteNoteModal" tabindex="-1" aria-labelledby="deleteNoteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title" id="deleteModalLabel">
+                    <h5 class="modal-title" id="deleteNoteModalLabel">
                         <i class="fas fa-exclamation-triangle me-2"></i>
                         Confirmar eliminación
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <p>¿Estás seguro de que deseas eliminar este contenido?</p>
+                    <p>¿Estás seguro de que deseas eliminar esta nota?</p>
                     <div class="alert alert-warning">
                         <i class="fas fa-exclamation-circle me-2"></i>
                         <strong>Advertencia:</strong> Esta acción no se puede deshacer.
                     </div>
                     <div class="mb-0 text-muted">
-                        <strong>Tipo:</strong> <span id="deleteContentType"></span><br>
-                        <strong>Página:</strong> <span id="deleteContentPage"></span><br>
-                        <strong>Título:</strong> <span id="deleteContentTitle"></span>
+                        <strong>Tipo:</strong> <span id="deleteNoteType"></span><br>
+                        <strong>Título:</strong> <span id="deleteNoteTitle"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fas fa-times me-1"></i>
                         Cancelar
                     </button>
-                    <button type="button" class="btn btn-danger" id="btnConfirmDelete">
+                    <button type="button" class="btn btn-danger" id="btnConfirmDeleteNote">
                         <i class="fas fa-trash me-1"></i>
                         Eliminar
                     </button>
@@ -430,12 +402,8 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- ContentList Component como módulo ES6 -->
-    <!--<script  type="module" src="components/ContentList.js"></script> -->
-    
-    <!-- Admin JS como módulo ES6 -->
-    <ul id="content-list"></ul>
-    <script type="module" src="admin.js"></script>
+    <!-- Notes JS como módulo ES6 -->
+    <script type="module" src="notes.js"></script>
 </body>
 </html>
 

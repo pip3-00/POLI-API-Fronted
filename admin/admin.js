@@ -1,3 +1,4 @@
+import { API_URL } from '../config.js';
 import { loadContent } from './services/content.js';
 
 console.log('🔥 admin.js EJECUTADO');
@@ -53,3 +54,40 @@ function renderContents(contents) {
     tableBody.appendChild(tr);
   });
 }
+
+async function fetchAllContents(limit = 10, offset = 0) {
+    const token = localStorage.getItem('admin_token');
+    if (!token) {
+        console.error('⚠️ No hay token de admin, debes iniciar sesión');
+        window.location.href = '../login.html';
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/content/admin/all?limit=${limit}&offset=${offset}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.status === 401) {
+            console.error('❌ Token inválido o expirado');
+            localStorage.removeItem('admin_token');
+            window.location.href = '../login.html';
+            return;
+        }
+
+        if (!response.ok) throw new Error(`Error al cargar contenidos: ${response.status}`);
+
+        const data = await response.json();
+        renderContentList(data);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// Ejecutar al cargar el panel
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAllContents();
+});

@@ -3,8 +3,7 @@
  * Maneja la autenticación de administradores con el backend FastAPI
  */
 
-import { API_URL } from '../config.js';
-
+const API_URL = "http://127.0.0.1:8000";
 const TOKEN_KEY = 'admin_token';
 const LOGIN_ENDPOINT = '/auth/login';
 const ADMIN_PAGE = 'admin/admin.html';
