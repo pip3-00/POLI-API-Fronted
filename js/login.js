@@ -3,7 +3,11 @@
  * Maneja la autenticación de administradores con el backend FastAPI
  */
 
-const API_URL = "http://127.0.0.1:8000";
+// ⚙️ CONFIGURACIÓN DE RED
+const LOCAL_IP = "10.0.0.10"; // ← Reemplaza con la IP de tu computadora
+const API_PORT = "8000";
+const API_URL = `http://${LOCAL_IP}:${API_PORT}`;
+
 const TOKEN_KEY = 'admin_token';
 const LOGIN_ENDPOINT = '/auth/login';
 const ADMIN_PAGE = 'admin/admin.html';

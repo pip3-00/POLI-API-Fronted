@@ -36,7 +36,7 @@ async function loadAdmin() {
   }
 }
 
-gitContents(contents) {
+function renderContents(contents) {
   const tableBody = document.getElementById('contentsTableBody');
   tableBody.innerHTML = '';
 
