@@ -26,25 +26,41 @@
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-    <!-- ===== NAVBAR ===== -->
+<!-- ===== NAVBAR PRINCIPAL ===== -->
     <nav class="navbar-admin">
         <div class="container-fluid px-4">
             <div class="d-flex justify-content-between align-items-center w-100">
-                <!-- Logo y título -->
+                <!-- Logo y marca -->
                 <a href="admin.html" class="navbar-brand-admin">
                     <img src="../assets/images/logo-poli.png" alt="Logo Politécnico">
                     <span class="d-none d-lg-inline">Panel de Administración</span>
                     <span class="d-lg-none">Admin</span>
                 </a>
                 
+                <!-- Navegación horizontal -->
+                <ul class="navbar-nav horizontal-nav d-none d-lg-flex">
+                    <li class="nav-item">
+                        <a href="admin.html" id="menu-dashboard" class="nav-link active">
+                            <i class="fas fa-cubes nav-icon"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/notes" id="menu-notes" class="nav-link">
+                            <i class="fas fa-book nav-icon"></i>
+                            <span>Notas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../index.html" target="_blank" class="nav-link">
+                            <i class="fas fa-external-link-alt nav-icon"></i>
+                            <span>Ver sitio</span>
+                        </a>
+                    </li>
+                </ul>
+                
                 <!-- Menú derecho -->
                 <div class="d-flex align-items-center gap-3">
-                    <!-- Enlace al sitio -->
-                    <a href="../index.html" class="btn btn-outline-light btn-sm">
-                        <i class="fas fa-external-link-alt me-1"></i>
-                        <span class="d-none d-sm-inline">Ver sitio</span>
-                    </a>
-                    
                     <!-- Usuario conectado -->
                     <div class="user-info d-none d-md-flex align-items-center gap-2">
                         <div class="user-avatar">
@@ -64,137 +80,155 @@
     </nav>
 
     <!-- ===== CONTENIDO PRINCIPAL ===== -->
-    <main class="admin-main">
-        <div class="container-fluid px-4 py-4">
-            
-            <!-- Header del Dashboard -->
-            <div class="dashboard-header mb-4">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <h1 class="dashboard-title">
-                            <i class="fas fa-cubes me-2"></i>
-                            Gestión de Contenidos CMS
-                        </h1>
-                        <p class="dashboard-subtitle text-muted mb-0">
-                            Administra todos los contenidos del Politécnico Ann y Ted Kheel
-                        </p>
+        <main class="admin-main">
+            <div class="admin-main-content">
+                <div class="container-fluid px-4 py-4">
+                    
+                    <!-- Header del Dashboard -->
+                    <div class="dashboard-header mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h1 class="dashboard-title">
+                                    <i class="fas fa-cubes me-2"></i>
+                                    Gestión de Contenidos CMS
+                                </h1>
+                                <p class="dashboard-subtitle text-muted mb-0">
+                                    Administra todos los contenidos del Politécnico Ann y Ted Kheel
+                                </p>
+                            </div>
+                            <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                                <!-- Botón de nuevo contenido eliminado -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                        <button id="btnNewContent" class="btn btn-admin-primary">
-                            <i class="fas fa-plus me-2"></i>
-                            Nuevo Contenido
-                        </button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Alertas -->
-            <div id="alertContainer" class="mb-4" style="display: none;">
-                <!-- Las alertas se insertarán aquí dinámicamente -->
-            </div>
-
-            <!-- Panel de Contenidos -->
-            <div class="admin-card">
-                <div class="card-header-admin d-flex justify-content-between align-items-center flex-wrap gap-2">
-                    <h5 class="mb-0">
-                        <i class="fas fa-list me-2"></i>
-                        Listado de Contenidos
-                    </h5>
-                    <div class="d-flex align-items-center gap-2">
-                        <span class="badge bg-light text-dark" id="contentCount">0 contenidos</span>
-                        <button id="btnRefresh" class="btn btn-sm btn-outline-light" title="Actualizar lista">
-                            <i class="fas fa-sync-alt"></i>
-                        </button>
+                    <!-- Alertas -->
+                    <div id="alertContainer" class="mb-4" style="display: none;">
+                        <!-- Las alertas se insertarán aquí dinámicamente -->
                     </div>
-                </div>
-                
-                <div class="card-body p-0">
-                    <!-- Filtros -->
-                    <div class="p-3 bg-light border-bottom">
-                        <div class="row g-2">
-                            <div class="col-md-3 col-sm-6">
-                                <label class="form-label small mb-1">Filtrar por Tipo</label>
-                                <select id="filterType" class="form-select form-select-sm">
-                                    <option value="">Todos los tipos</option>
-                                    <option value="news">Noticias</option>
-                                    <option value="page">Páginas</option>
-                                    <option value="section">Secciones</option>
-                                    <option value="image">Imágenes</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <label class="form-label small mb-1">Filtrar por Página</label>
-                                <select id="filterPage" class="form-select form-select-sm">
-                                    <option value="">Todas las páginas</option>
-                                    <option value="home">Inicio</option>
-                                    <option value="about">Nosotros</option>
-                                    <option value="global">Global</option>
-                                    <option value="academics">Académicos</option>
-                                    <option value="admissions">Admisiones</option>
-                                    <option value="contact">Contacto</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <label class="form-label small mb-1">Estado</label>
-                                <select id="filterActive" class="form-select form-select-sm">
-                                    <option value="">Todos</option>
-                                    <option value="true">Activos</option>
-                                    <option value="false">Inactivos</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 col-sm-6 d-flex align-items-end">
-                                <button id="btnClearFilters" class="btn btn-outline-secondary btn-sm w-100">
-                                    <i class="fas fa-times me-1"></i>
-                                    Limpiar Filtros
+
+                    <!-- Panel de Contenidos -->
+                    <div class="admin-card">
+                        <div class="card-header-admin d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <h5 class="mb-0">
+                                <i class="fas fa-list me-2"></i>
+                                Listado de Contenidos
+                            </h5>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-light text-dark" id="contentCount">0 contenidos</span>
+                                <button id="toggleViewBtn" class="btn btn-sm btn-outline-primary" title="Cambiar vista" onclick="window.toggleContentView()">
+                                    <i class="fas fa-list me-1"></i>
+                                    <span class="d-none d-sm-inline">Vista Lista</span>
+                                </button>
+                                <button id="btnRefresh" class="btn btn-sm btn-outline-light" title="Actualizar lista">
+                                    <i class="fas fa-sync-alt"></i>
                                 </button>
                             </div>
                         </div>
-                    </div>
+                        
+                        <div class="card-body p-0">
+                            <!-- Filtros -->
+                            <div class="p-3 bg-light border-bottom">
+                                <div class="row g-2">
+                                    <div class="col-md-3 col-sm-6">
+                                        <label class="form-label small mb-1">Filtrar por Tipo</label>
+                                        <select id="filterType" class="form-select form-select-sm">
+                                            <option value="">Todos los tipos</option>
+                                            <option value="news">Noticias</option>
+                                            <option value="page">Páginas</option>
+                                            <option value="section">Secciones</option>
+                                            <option value="image">Imágenes</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <label class="form-label small mb-1">Filtrar por Página</label>
+                                        <select id="filterPage" class="form-select form-select-sm">
+                                            <option value="">Todas las páginas</option>
+                                            <option value="home">Inicio</option>
+                                            <option value="about">Nosotros</option>
+                                            <option value="global">Global</option>
+                                            <option value="academics">Académicos</option>
+                                            <option value="admissions">Admisiones</option>
+                                            <option value="contact">Contacto</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <label class="form-label small mb-1">Estado</label>
+                                        <select id="filterActive" class="form-select form-select-sm">
+                                            <option value="">Todos</option>
+                                            <option value="true">Activos</option>
+                                            <option value="false">Inactivos</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 d-flex align-items-end">
+                                        <button id="btnClearFilters" class="btn btn-outline-secondary btn-sm w-100">
+                                            <i class="fas fa-times me-1"></i>
+                                            Limpiar Filtros
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <!-- Loading spinner -->
-                    <div id="loadingSpinner" class="loading-container">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Cargando...</span>
+                            <!-- Loading spinner -->
+                            <div id="loadingSpinner" class="loading-container">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <p class="mt-2 text-muted">Cargando contenidos...</p>
+                            </div>
+
+                            <!-- Tabla de contenidos -->
+                            <div class="table-responsive" id="tableContainer" style="display: none;">
+                                <table class="table table-hover admin-table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th width="50">ID</th>
+                                            <th width="100">Tipo</th>
+                                            <th width="120">Página</th>
+                                            <th width="150">Key</th>
+                                            <th>Título</th>
+                                            <th width="90">Activo</th>
+                                            <th width="120" class="text-end">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="contentsTableBody">
+                                        <!-- Los contenidos se insertarán aquí -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Empty state -->
+                            <div id="emptyState" class="empty-state" style="display: none;">
+                                <div class="empty-icon">
+                                    <i class="fas fa-cube"></i>
+                                </div>
+                                <h4 class="empty-title">No hay contenidos</h4>
+                                <p class="empty-text">No se encontraron contenidos con los filtros seleccionados.</p>
+                            </div>
+
+                            <!-- ContentList Component Container -->
+                            <div id="contentListContainer" style="display: none;">
+                                <!-- ContentList renderizará aquí -->
+                            </div>
+
+                            <!-- Paginación -->
+                            <div id="paginationContainer" class="pagination-container" style="display: none;">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 px-3 py-2 bg-light border-top">
+                                    <div class="pagination-info">
+                                        <span id="paginationRange">Mostrando 0-0 de 0</span>
+                                    </div>
+                                    <nav aria-label="Paginación de contenidos">
+                                        <ul class="pagination pagination-sm mb-0" id="paginationControls">
+                                            <!-- Botones de paginación se renderizarán aquí -->
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
                         </div>
-                        <p class="mt-2 text-muted">Cargando contenidos...</p>
-                    </div>
-
-                    <!-- Tabla de contenidos -->
-                    <div class="table-responsive" id="tableContainer" style="display: none;">
-                        <table class="table table-hover admin-table mb-0">
-                            <thead>
-                                <tr>
-                                    <th width="50">ID</th>
-                                    <th width="100">Tipo</th>
-                                    <th width="120">Página</th>
-                                    <th width="150">Key</th>
-                                    <th>Título</th>
-                                    <th width="90">Activo</th>
-                                    <th width="120" class="text-end">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="contentsTableBody">
-                                <!-- Los contenidos se insertarán aquí -->
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Empty state -->
-                    <div id="emptyState" class="empty-state" style="display: none;">
-                        <div class="empty-icon">
-                            <i class="fas fa-cube"></i>
-                        </div>
-                        <h4 class="empty-title">No hay contenidos</h4>
-                        <p class="empty-text">No se encontraron contenidos con los filtros seleccionados.</p>
-                        <button class="btn btn-admin-primary mt-3" id="btnNewContentEmpty">
-                            <i class="fas fa-plus me-2"></i>
-                            Crear primer contenido
-                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
     <!-- ===== MODAL PARA CREAR/EDITAR CONTENIDO ===== -->
     <div class="modal fade" id="contentModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
@@ -332,7 +366,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fas fa-times me-1"></i>
                         Cancelar
                     </button>
@@ -363,6 +397,9 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- ContentList Component como módulo ES6 -->
+    <!--<script  type="module" src="components/ContentList.js"></script> -->
     
     <!-- Admin JS como módulo ES6 -->
     <script type="module" src="admin.js"></script>

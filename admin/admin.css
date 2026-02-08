@@ -2,7 +2,7 @@
  * ESTILOS DEL PANEL DE ADMINISTRACIÓN
  * Politécnico Ann y Ted Kheel
  * 
- * Coherente con el diseño principal del sitio
+ * Navbar horizontal moderno y responsive
  */
 
 /* ===== VARIABLES CSS ===== */
@@ -37,18 +37,16 @@ body {
     font-family: var(--fuente-principal);
     background-color: var(--blanco-gris);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 /* ===== NAVBAR ADMIN ===== */
 .navbar-admin {
     background: linear-gradient(135deg, var(--azul-poli) 0%, var(--azul-medio) 100%);
-    padding: 0.75rem 0;
+    padding: 0.75rem 1.5rem;
     box-shadow: 0 2px 10px rgba(8, 43, 95, 0.2);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 100;
 }
 
 .navbar-brand-admin {
@@ -71,6 +69,53 @@ body {
     width: auto;
 }
 
+/* ===== NAVEGACIÓN HORIZONTAL ===== */
+.horizontal-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-item {
+    list-style: none;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--sidebar-text);
+}
+
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.18);
+    color: var(--sidebar-text);
+}
+
+.nav-icon {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+    opacity: 0.9;
+}
+
+/* ===== MENÚ DERECHO ===== */
 .user-info {
     background: rgba(255, 255, 255, 0.1);
     padding: 0.5rem 1rem;
@@ -86,11 +131,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.user-name {
-    font-size: 0.9rem;
-    font-weight: 500;
 }
 
 /* ===== BOTONES ===== */
@@ -111,12 +151,13 @@ body {
     box-shadow: 0 4px 12px rgba(8, 43, 95, 0.3);
 }
 
-.btn-admin-primary:active {
-    transform: translateY(0);
+/* ===== CONTENIDO PRINCIPAL ===== */
+.admin-main {
+    min-height: calc(100vh - 72px);
 }
 
 /* ===== MAIN CONTENT ===== */
-.admin-main {
+.admin-main-content {
     flex: 1;
     padding: 1.5rem 0;
 }
@@ -135,6 +176,7 @@ body {
 
 .dashboard-subtitle {
     font-size: 0.95rem;
+    color: #6c757d;
 }
 
 /* ===== ALERTAS ===== */
@@ -188,11 +230,6 @@ body {
     font-weight: 600;
 }
 
-.card-header-admin h5 {
-    margin: 0;
-    font-size: 1rem;
-}
-
 /* ===== LOADING SPINNER ===== */
 .loading-container {
     display: flex;
@@ -201,11 +238,6 @@ body {
     justify-content: center;
     padding: 4rem 2rem;
     color: var(--gris-oscuro);
-}
-
-.spinner-border {
-    width: 3rem;
-    height: 3rem;
 }
 
 /* ===== TABLA DE NOTICIAS ===== */
@@ -244,28 +276,6 @@ body {
     color: var(--negro-suave);
 }
 
-.admin-table .news-title-cell {
-    max-width: 300px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.admin-table .news-title-cell:hover {
-    white-space: normal;
-    word-wrap: break-word;
-}
-
-.badge-published {
-    background-color: #d1e7dd;
-    color: #0f5132;
-}
-
-.badge-draft {
-    background-color: #fff3cd;
-    color: #664d03;
-}
-
 /* ===== BOTONES DE ACCIÓN ===== */
 .action-btn {
     padding: 0.375rem 0.75rem;
@@ -277,27 +287,13 @@ body {
     margin-right: 0.25rem;
 }
 
-.action-btn:last-child {
-    margin-right: 0;
-}
-
 .btn-edit {
     background-color: var(--info);
     color: white;
 }
 
-.btn-edit:hover {
-    background-color: #0aa2c0;
-    color: white;
-}
-
 .btn-delete {
     background-color: var(--danger);
-    color: white;
-}
-
-.btn-delete:hover {
-    background-color: #bb2d3b;
     color: white;
 }
 
@@ -324,18 +320,6 @@ body {
     color: var(--gris-oscuro);
 }
 
-.empty-title {
-    color: var(--azul-poli);
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.empty-text {
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-}
-
 /* ===== MODALES ===== */
 .modal-content {
     border: none;
@@ -352,11 +336,6 @@ body {
 
 .modal-header .btn-close-white {
     filter: brightness(0) invert(1);
-}
-
-.modal-title {
-    font-weight: 600;
-    font-size: 1.1rem;
 }
 
 .modal-body {
@@ -389,36 +368,88 @@ body {
     box-shadow: 0 0 0 3px rgba(26, 74, 140, 0.1);
 }
 
-.form-text {
-    font-size: 0.8rem;
-    color: var(--gris-oscuro);
-}
-
 /* ===== FOOTER ===== */
 .admin-footer {
     background: white;
     border-top: 1px solid var(--gris-medio);
-    padding: 1rem 0;
+    padding: 1rem 1.5rem;
     font-size: 0.85rem;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== PANTALLA COMPLETA (XL) ===== */
+@media (min-width: 1400px) {
+    .admin-main-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    
+    .container-fluid {
+        max-width: 100%;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    
+    .dashboard-title {
+        font-size: 2rem;
+    }
+    
+    .admin-card {
+        border-radius: 16px;
+    }
+    
+    .card-header-admin {
+        padding: 1.25rem 1.5rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* ===== PANTALLA LARGA (LG) ===== */
+@media (min-width: 992px) and (max-width: 1399.98px) {
+    .admin-main-content {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    .container-fluid {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+/* ===== RESPONSIVE TABLET Y MÓVIL ===== */
+@media (max-width: 991.98px) {
+    .navbar-admin {
+        padding: 0.75rem 1rem;
+    }
+    
+    .admin-main-content {
+        padding: 1rem;
+    }
+    
+    /* Ocultar navegación horizontal en tablets */
+    .horizontal-nav.d-none {
+        display: none !important;
+    }
+}
+
 @media (max-width: 768px) {
     .dashboard-title {
         font-size: 1.5rem;
     }
     
-    .dashboard-header .text-md-end {
-        text-align: start !important;
+    .dashboard-subtitle {
+        font-size: 0.875rem;
     }
     
     .admin-table {
-        font-size: 0.875rem;
+        font-size: 0.8rem;
     }
     
     .admin-table thead th,
     .admin-table tbody td {
-        padding: 0.75rem 0.5rem;
+        padding: 0.625rem 0.5rem;
     }
     
     .action-btn {
@@ -429,23 +460,59 @@ body {
     .user-info {
         display: none !important;
     }
+    
+    .admin-footer {
+        padding: 0.75rem 1rem;
+        font-size: 0.75rem;
+    }
+    
+    .empty-state {
+        padding: 3rem 1rem;
+    }
+    
+    .empty-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .empty-icon i {
+        font-size: 1.75rem;
+    }
+    
+    .navbar-brand-admin span.d-lg-inline {
+        display: none !important;
+    }
+    
+    .navbar-brand-admin span.d-lg-none {
+        display: inline !important;
+    }
 }
 
 @media (max-width: 576px) {
-    .navbar-brand-admin span {
-        display: none;
+    .dashboard-header {
+        margin-bottom: 1rem;
     }
     
-    .btn span:not(.visually-hidden):last-child {
-        display: none;
+    .dashboard-title {
+        font-size: 1.25rem;
     }
     
-    .btn-admin-primary {
-        padding: 0.5rem 1rem;
+    .admin-card {
+        border-radius: 8px;
+        margin: 0 -0.5rem;
     }
     
-    .modal-dialog {
-        margin: 0.5rem;
+    .card-header-admin {
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .filter-section {
+        padding: 0.75rem;
+    }
+    
+    .navbar-brand-admin img {
+        height: 35px;
     }
 }
 
@@ -465,19 +532,6 @@ body {
     animation: fadeIn 0.4s ease-out;
 }
 
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-}
-
-.loading .spinner-border {
-    animation: pulse 1.5s ease-in-out infinite;
-}
-
 /* ===== UTILIDADES ===== */
 .text-truncate-2 {
     display: -webkit-box;
@@ -486,11 +540,6 @@ body {
     overflow: hidden;
 }
 
-.cursor-pointer {
-    cursor: pointer;
-}
-
-/* Badge states */
 .badge-active {
     background-color: #d1e7dd;
     color: #0f5132;
@@ -499,5 +548,26 @@ body {
 .badge-inactive {
     background-color: #f8d7da;
     color: #842029;
+}
+
+/* ===== PAGINACIÓN ===== */
+.pagination-container {
+    background-color: var(--blanco-gris);
+    border-top: 1px solid var(--gris-medio);
+}
+
+.pagination-info {
+    font-size: 0.85rem;
+    color: var(--gris-oscuro);
+}
+
+.pagination {
+    --bs-pagination-color: var(--azul-poli);
+    --bs-pagination-bg: white;
+    --bs-pagination-border-color: var(--gris-medio);
+    --bs-pagination-hover-color: var(--azul-hover);
+    --bs-pagination-hover-bg: var(--azul-claro);
+    --bs-pagination-active-bg: var(--azul-poli);
+    --bs-pagination-active-border-color: var(--azul-poli);
 }
 
