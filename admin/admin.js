@@ -36,7 +36,7 @@ async function loadAdmin() {
   }
 }
 
-function renderContents(contents) {
+gitContents(contents) {
   const tableBody = document.getElementById('contentsTableBody');
   tableBody.innerHTML = '';
 
@@ -85,6 +85,55 @@ async function fetchAllContents(limit = 10, offset = 0) {
     } catch (err) {
         console.error(err);
     }
+}
+
+/**
+ * Renderiza la lista de contenidos en el contenedor #content-list
+ * @param {Object} data - Datos del fetch que contienen contenidos y total
+ */
+function renderContentList(data) {
+    const container = document.getElementById('content-list');
+    if (!container) {
+        console.error('❌ No se encontró el contenedor #content-list');
+        return;
+    }
+
+    // Extraer el array de contenidos (soporta tanto 'contenidos' como 'contents')
+    const contenidos = data.contenidos ?? data.contents ?? [];
+    
+    // Limpiar el contenedor
+    container.innerHTML = '';
+
+    if (!Array.isArray(contenidos) || contenidos.length === 0) {
+        container.innerHTML = '<li class="text-muted p-3">No hay contenidos disponibles</li>';
+        return;
+    }
+
+    // Renderizar cada contenido como un elemento de lista
+    contenidos.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'content-item mb-2 p-2 border-bottom';
+        li.innerHTML = `
+            <strong>${escapeHtml(item.type || 'Sin tipo')}</strong> — 
+            <span>${escapeHtml(item.page || 'Sin página')}</span> —
+            <em>${escapeHtml(item.title || 'Sin título')}</em>
+        `;
+        container.appendChild(li);
+    });
+
+    console.log(`✅ Renderizados ${contenidos.length} contenidos en #content-list`);
+}
+
+/**
+ * Función helper para escapar HTML y prevenir XSS
+ * @param {string} text - Texto a escapar
+ * @returns {string} - Texto escapado
+ */
+function escapeHtml(text) {
+    if (text == null) return '';
+    const div = document.createElement('div');
+    div.textContent = String(text);
+    return div.innerHTML;
 }
 
 // Ejecutar al cargar el panel
